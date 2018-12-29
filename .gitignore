@@ -1,5 +1,5 @@
 aiida/config.json
-aiida/scripts/sshkey.pub
+aiida/scripts/ssh_key.pub
 compose-init/sshkeys
 db/init.sql
 torquessh-withplugin/code
