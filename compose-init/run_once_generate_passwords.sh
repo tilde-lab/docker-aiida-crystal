@@ -19,14 +19,14 @@ AIIDA_BACKEND=django
 if [ -e sshkeys ]
 then
     echo "folder sshkeys exists, remove it first"
-    exit 1
+    exit 0
 fi
 
 mkdir -p sshkeys/torque
-ssh-keygen -t rsa -f sshkeys/torque/aiida_key -C "Key for Dockerized AiiDA service" -N ''
+ssh-keygen -t rsa -m PEM -f sshkeys/torque/aiida_key -C "Key for Dockerized AiiDA service" -N ''
 
 mkdir -p sshkeys/aiida
-ssh-keygen -t rsa -f sshkeys/aiida/ssh_key -C "Key for SSH container access" -N ''
+ssh-keygen -t rsa -m PEM -f sshkeys/aiida/ssh_key -C "Key for SSH container access" -N ''
 cp sshkeys/aiida/ssh_key.pub ../aiida/scripts
 
 # To allow to read it from inside the docker container, I make the 
