@@ -27,9 +27,6 @@ RUN apt-get update \
     && apt-get clean all \
     && updatedb
 
-# Start RabbitMQ service
-RUN service rabbitmq-server start
-
 # update pip and setuptools, required for AiiDA
 RUN pip install -U pip setuptools
 

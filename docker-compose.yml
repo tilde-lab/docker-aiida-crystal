@@ -30,8 +30,8 @@ services:
      volumes:
         - aiidalogs:/home/aiida/.aiida/
         - aiidarepo:/home/aiida/.aiida-repo/
-        - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys
-        - ../aiida-crystal17:/home/aiida/code/aiida-crystal17
+        - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys:Z
+        - ../aiida-crystal17:/home/aiida/code/aiida-crystal17:Z
      depends_on:
         - db
         - torquessh

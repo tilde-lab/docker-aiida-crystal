@@ -30,6 +30,8 @@ RUN chown -R aiida:aiida /home/aiida/.dockerscripts && \
 # Enable SSH
 
 RUN rm -f /etc/service/sshd/down
+RUN sed -i 's/#PasswordAuth/PasswordAuth/g' /etc/ssh/sshd_config
+RUN sed -i 's/#UsePAM/UsePAM/g' /etc/ssh/sshd_config
 
 # Prepare services
 
