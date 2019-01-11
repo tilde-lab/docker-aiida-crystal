@@ -55,7 +55,7 @@ def test_example(new_database, new_workdir):
     calc = code.new_calc()
     calc.label = "aiida_crystal17 test"
     calc.description = "Test job submission with the aiida_crystal17 plugin"
-    calc.set_max_wallclock_seconds(30)
+    calc.set_max_wallclock_seconds(3600)
     calc.set_withmpi(False)
     calc.set_resources({"num_machines": 1, "num_mpiprocs_per_machine": 1})
 
