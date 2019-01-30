@@ -5,7 +5,7 @@
 verdi code setup --non-interactive \
         --label=cry \
         --sescription="CRYSTAL14 code" \
-        --input_plugin=crystal17.main \
+        --input_plugin=crystal.main \
         --on-computer \
         --computer=torquessh \
         --remote-abs-path=/usr/bin/crystal

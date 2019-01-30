@@ -16,11 +16,13 @@ COPY scripts/ /home/aiida/.dockerscripts/
 RUN mkdir -p ~/.aiida/daemon/log && mkdir ~/.ssh/keys
 
 COPY config.json /home/aiida/.aiida/
-RUN echo 1323ugtGuTfsQ4t0DyUbzloMOWmFRsVLDooqyT9ybhDWbcCRZA > /home/aiida/.aiida/secret_key.dat && chmod 600 ~/.aiida/secret_key.dat
-RUN touch /home/aiida/.aiida/daemon/circus-default.sockets
-
 COPY scripts/ssh_key.pub /home/aiida/
-RUN cat /home/aiida/ssh_key.pub >> /home/aiida/.ssh/authorized_keys && rm -f /home/aiida/ssh_key.pub
+
+RUN echo 1323ugtGuTfsQ4t0DyUbzloMOWmFRsVLDooqyT9ybhDWbcCRZA > /home/aiida/.aiida/secret_key.dat && \
+    chmod 600 ~/.aiida/secret_key.dat && \
+    touch /home/aiida/.aiida/daemon/circus-default.sockets && \
+    cat /home/aiida/ssh_key.pub >> /home/aiida/.ssh/authorized_keys && \
+    rm -f /home/aiida/ssh_key.pub
 
 # Make sure all things created have the right permissions
 RUN chown -R aiida:aiida /home/aiida/.dockerscripts && \

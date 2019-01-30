@@ -19,18 +19,6 @@ cd compose-init && ./run_once_generate_passwords.sh && cd ..
 ## in general). Note that I start daemonized
 cd aiida_base && docker build -t aiida_base . && cd ..
 
-docker-compose up --build
-
-## Step 3. Setup AiiDA
-## According to how I generated the aiida image, this will have already set
-## up AiiDA.
-## I can now setup the computer etc.
-#docker-compose exec --user aiida aiida /bin/bash -l -c "/home/aiida/.dockerscripts/core/aiida_setup.sh"
-
-### PLUGIN-SPECIFIC SECTION
-#docker-compose exec --user aiida aiida /bin/bash -l -c "pip install --user -e /home/aiida/code/aiida-crystal17 && reentry scan"
-
-# Setup also the code
-#docker-compose exec --user aiida aiida /bin/bash -l -c "/home/aiida/.dockerscripts/plugin/code_setup.sh"
-
+#  Start up as usual
+./startup.sh
 

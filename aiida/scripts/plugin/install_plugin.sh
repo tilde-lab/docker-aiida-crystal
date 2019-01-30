@@ -1,4 +1,4 @@
 #!/bin/bash
 
 exec /sbin/setuser aiida \
-pip install --user -e /home/aiida/code/aiida-crystal17
+pip install --user -e /home/aiida/code/aiida-crystal

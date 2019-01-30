@@ -7,7 +7,7 @@ Usage: verdi run test_submit_main.py
 Note: This script assumes you have set up computer and code as in README.md.
 """
 import os
-import aiida_crystal17.tests
+import aiida_crystal.tests
 
 def test_example(new_database, new_workdir):
 
@@ -15,8 +15,8 @@ def test_example(new_database, new_workdir):
     from aiida.orm import Code
     StructureData = DataFactory('structure')
     from ase.spacegroup import crystal
-    from aiida_crystal17.data.basis_set import BasisSetData
-    from aiida_crystal17.workflows.symmetrise_3d_struct import run_symmetrise_3d_structure
+    from aiida_crystal.data.basis_set import BasisSetData
+    from aiida_crystal.workflows.symmetrise_3d_struct import run_symmetrise_3d_structure
 
     # get code
     code = Code.get_from_string('cry@torquessh')
@@ -45,7 +45,7 @@ def test_example(new_database, new_workdir):
     instruct, settings = run_symmetrise_3d_structure(instruct, settings_dict)
 
     BasisSetData.upload_basisset_family(
-        os.path.join(aiida_crystal17.tests.TEST_DIR, "input_files", "sto3g"),
+        os.path.join(aiida_crystal.tests.TEST_DIR, "input_files", "sto3g"),
         "sto3g",
         "minimal basis sets",
         stop_if_existing=False,
@@ -53,8 +53,8 @@ def test_example(new_database, new_workdir):
 
     # set up calculation
     calc = code.new_calc()
-    calc.label = "aiida_crystal17 test"
-    calc.description = "Test job submission with the aiida_crystal17 plugin"
+    calc.label = "aiida_crystal test"
+    calc.description = "Test job submission with the aiida_crystal plugin"
     calc.set_max_wallclock_seconds(3600)
     calc.set_withmpi(False)
     calc.set_resources({"num_machines": 1, "num_mpiprocs_per_machine": 1})
