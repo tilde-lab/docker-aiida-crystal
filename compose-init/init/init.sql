@@ -1317,7 +1317,7 @@ INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dv
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (2, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (3, 'remote_exec_path', 'txt', '/usr/bin/crystal', NULL, NULL, NULL, NULL, 1);
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (4, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, 'input_plugin', 'txt', 'crystal17.main', NULL, NULL, NULL, NULL, 1);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, 'input_plugin', 'txt', 'crystal.main', NULL, NULL, NULL, NULL, 1);
 
 
 --

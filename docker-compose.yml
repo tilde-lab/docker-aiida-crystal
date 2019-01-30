@@ -1,21 +1,21 @@
 version: '2'
 
 volumes:
-   # Named voluem for PG data
-   dbdata:
-   # Named volume for AiiDA logs 
-   aiidalogs:
-   # Named volume for AiiDA repository
-   aiidarepo:
+  # Named voluem for PG data
+  dbdata:
+  # Named volume for AiiDA logs 
+  aiidalogs:
+  # Named volume for AiiDA repository
+  aiidarepo:
 
 services:
-   db:
-      build: db/
-   #     image: postgres:9.5
-      volumes:
-         - dbdata:/var/lib/postgres/data
-      env_file:
-         - compose-init/env/postgres.env
+  db:
+     build: db/
+#     image: postgres:9.5
+     volumes:
+       - dbdata:/var/lib/postgres/data
+     env_file:
+       - compose-init/env/postgres.env
 
   # torquessh-withplugin should extend torquessh_base
   # with your simulations software
@@ -25,15 +25,17 @@ services:
       env_file:
          - compose-init/env/torque.env
 
-   aiida:
-      build: aiida/
-      volumes:
-         - aiidalogs:/home/aiida/.aiida/
-         - aiidarepo:/home/aiida/.aiida-repo/
-         - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys:Z
-         - ../aiida-crystal17:/home/aiida/code/aiida-crystal17:Z
-      depends_on:
-         - db
-         - torquessh
-      env_file:
-         - compose-init/env/aiida.env
+  aiida:
+     build: aiida/
+     volumes:
+        - aiidalogs:/home/aiida/.aiida/
+        - aiidarepo:/home/aiida/.aiida-repo/
+        - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys
+        - ../aiida-crystal:/home/aiida/code/aiida-crystal
+     depends_on:
+        - db
+        - torquessh
+     env_file:
+        - compose-init/env/aiida.env
+
+

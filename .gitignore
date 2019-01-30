@@ -3,3 +3,5 @@ aiida/scripts/ssh_key.pub
 compose-init/sshkeys
 db/init.sql
 torquessh-withplugin/code
+torquessh-withplugin/mpi
+

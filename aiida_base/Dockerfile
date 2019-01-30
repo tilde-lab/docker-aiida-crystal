@@ -66,7 +66,7 @@ RUN echo 'export PATH=~/.local/bin:$PATH' >> $HOME/.bashrc
 
 # Install AiiDA
 # WORKDIR /home/aiida/code/aiida_core
-RUN pip install -U pip wheel setuptools aiida_core[atomic_tools]==1.0.0a4 ejplugins packaging --user 
+RUN pip install -U pip wheel setuptools aiida_core==1.0.0a4 ejplugins packaging --user 
 #    && pip install -e . --user --no-build-isolation
 
 # Important to end as user root!
