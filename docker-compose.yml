@@ -1,7 +1,7 @@
 version: '2'
 
 volumes:
-  # Named voluem for PG data
+  # Named volume for PG data
   dbdata:
   # Named volume for AiiDA logs 
   aiidalogs:
@@ -19,7 +19,7 @@ services:
 
   # torquessh-withplugin should extend torquessh_base
   # with your simulations software
-   torquessh:
+  torquessh:
       build: torquessh-withplugin/
       privileged: true
       env_file:
@@ -30,8 +30,8 @@ services:
      volumes:
         - aiidalogs:/home/aiida/.aiida/
         - aiidarepo:/home/aiida/.aiida-repo/
-        - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys
-        - ../aiida-crystal:/home/aiida/code/aiida-crystal
+        - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys:Z
+        - ../aiida-crystal:/home/aiida/code/aiida-crystal:Z
      depends_on:
         - db
         - torquessh

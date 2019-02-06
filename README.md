@@ -51,11 +51,10 @@ If you want to kill also the data (i.e. the named data volumes), use
 
 # Known bugs
 
-Presently, there are several known bugs:
+Presently, there are one known bug:
 
-1. `torquessh` node has 1 processor by default, that prohibits testing `Pcrystal` code. Please run 
+`torquessh` node has 1 processor by default, that prohibits testing `Pcrystal` code. Please run 
 ```
    docker-compose exec --user root torquessh "qmgr set node torquessh np=2" 
 ```   
 after the containers have beed started.
-2. `verdi` daemon is not started; to start it please run `./verdi daemon start`.
