@@ -29,7 +29,7 @@ services:
      build: aiida/
      volumes:
         - aiidalogs:/home/aiida/.aiida/
-        - aiidarepo:/home/aiida/.aiida-repo/
+        - aiidarepo:/home/aiida/.aiida_repo/
         - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys:Z
         - ../aiida-crystal:/home/aiida/code/aiida-crystal:Z
      depends_on:

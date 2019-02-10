@@ -16,24 +16,25 @@ COPY scripts/ /home/aiida/.dockerscripts/
 RUN mkdir -p ~/.aiida/daemon/log && mkdir ~/.ssh/keys
 
 COPY config.json /home/aiida/.aiida/
-COPY scripts/ssh_key.pub /home/aiida/
+COPY scripts/ssh_key.pub /home/aiida/.aiida_repo/
 
 RUN echo 1323ugtGuTfsQ4t0DyUbzloMOWmFRsVLDooqyT9ybhDWbcCRZA > /home/aiida/.aiida/secret_key.dat && \
     chmod 600 ~/.aiida/secret_key.dat && \
     touch /home/aiida/.aiida/daemon/circus-default.sockets && \
-    cat /home/aiida/ssh_key.pub >> /home/aiida/.ssh/authorized_keys && \
-    rm -f /home/aiida/ssh_key.pub
+    cat /home/aiida/.aiida_repo/ssh_key.pub >> /home/aiida/.ssh/authorized_keys && \
+    rm -f /home/aiida/.aiida_repo/ssh_key.pub
 
 # Make sure all things created have the right permissions
 RUN chown -R aiida:aiida /home/aiida/.dockerscripts && \
     chown -R aiida:aiida /home/aiida/.aiida && \
+    chown -R aiida:aiida /home/aiida/.aiida_repo && \
     chown -R aiida:aiida /home/aiida/.ssh
 
 # Enable SSH
 
-RUN rm -f /etc/service/sshd/down
-RUN sed -i 's/#PasswordAuth/PasswordAuth/g' /etc/ssh/sshd_config
-RUN sed -i 's/#UsePAM/UsePAM/g' /etc/ssh/sshd_config
+RUN rm -f /etc/service/sshd/down && \
+    sed -i 's/#PasswordAuth/PasswordAuth/g' /etc/ssh/sshd_config && \
+    sed -i 's/#UsePAM/UsePAM/g' /etc/ssh/sshd_config
 
 # Prepare services
 
