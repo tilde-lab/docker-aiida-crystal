@@ -10,12 +10,11 @@ RUN apt-get update \
     openmpi-bin \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean all \
-    && ln -s /usr/lib/libmpi_usempif08.so.11 /usr/lib/libmpi_usempi.so.5
+    && ln -s /usr/lib/libmpi.so.12 /usr/lib/libmpi.so.1 \
+    && ln -s /usr/lib/libmpi_mpifh.so.12 /usr/lib/libmpi_f77.so.1 \
+    && ln -s /usr/lib/libmpi_mpifh.so.12 /usr/lib/libmpi_f90.so.1 
 
 COPY code/* /usr/bin/
-
-#ADD ./mpi /opt/mpi
-#RUN /opt/mpi/install.sh -s /opt/mpi/silent.cfg
 
 RUN /etc/my_init.d/01_setup-hostnames.sh && \
     /etc/init.d/torque-server start && \

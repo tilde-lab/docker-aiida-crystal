@@ -1,3 +1,4 @@
+mesg: ttyname failed: Success
 --
 -- PostgreSQL database dump
 --
@@ -1317,14 +1318,19 @@ INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dv
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (2, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (3, 'remote_exec_path', 'txt', '/usr/bin/crystal', NULL, NULL, NULL, NULL, 1);
 INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (4, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, 'input_plugin', 'txt', 'crystal.main', NULL, NULL, NULL, NULL, 1);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, 'input_plugin', 'txt', 'crystal.serial', NULL, NULL, NULL, NULL, 1);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (6, 'is_local', 'bool', '', NULL, NULL, false, NULL, 2);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (7, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 2);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (8, 'remote_exec_path', 'txt', '/usr/bin/Pcrystal', NULL, NULL, NULL, NULL, 2);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (9, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 2);
+INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (10, 'input_plugin', 'txt', 'crystal.parallel', NULL, NULL, NULL, NULL, 2);
 
 
 --
 -- Name: db_dbattribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
 --
 
-SELECT pg_catalog.setval('public.db_dbattribute_id_seq', 5, true);
+SELECT pg_catalog.setval('public.db_dbattribute_id_seq', 10, true);
 
 
 --
@@ -1387,13 +1393,15 @@ SELECT pg_catalog.setval('public.db_dbcomputer_id_seq', 1, true);
 
 INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (1, '_aiida_hash', 'txt', '6eb184ab3fa78f5dca324138e55a3933699614e0bb1f2e5edb8e60688a975bf2', NULL, NULL, NULL, NULL, 1);
 INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (2, 'hidden', 'bool', '', NULL, NULL, false, NULL, 1);
+INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (3, '_aiida_hash', 'txt', 'e6b2313f2323c4ea0aaf1564e8d09d49cefd02cc8c73412ab728ccb30617b710', NULL, NULL, NULL, NULL, 2);
+INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (4, 'hidden', 'bool', '', NULL, NULL, false, NULL, 2);
 
 
 --
 -- Name: db_dbextra_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
 --
 
-SELECT pg_catalog.setval('public.db_dbextra_id_seq', 2, true);
+SELECT pg_catalog.setval('public.db_dbextra_id_seq', 4, true);
 
 
 --
@@ -1452,14 +1460,15 @@ SELECT pg_catalog.setval('public.db_dblog_id_seq', 1, false);
 -- Data for Name: db_dbnode; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (1, '8e729966-b5aa-4425-a831-cc0e3a6163ad', 'code.Code.', 'cry', 'CRYSTAL14', '2018-12-19 19:12:53.559278+00', '2018-12-19 19:12:53.700292+00', 2, false, 1, 1, NULL);
+INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (1, '8e729966-b5aa-4425-a831-cc0e3a6163ad', 'code.Code.', 'crystal', '', '2018-12-19 19:12:53.559278+00', '2018-12-19 19:12:53.700292+00', 2, false, 1, 1, NULL);
+INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (2, '200873cd-6200-4f06-b9ac-c0645e2b50d4', 'code.Code.', 'Pcrystal', '', '2019-02-11 17:58:51.676932+00', '2019-02-11 17:58:51.742149+00', 2, false, 1, 1, NULL);
 
 
 --
 -- Name: db_dbnode_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
 --
 
-SELECT pg_catalog.setval('public.db_dbnode_id_seq', 1, true);
+SELECT pg_catalog.setval('public.db_dbnode_id_seq', 2, true);
 
 
 --
@@ -1468,13 +1477,15 @@ SELECT pg_catalog.setval('public.db_dbnode_id_seq', 1, true);
 
 INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (15, 'db|schemaversion', 'txt', '1.0.15', NULL, NULL, NULL, NULL, 'The version of the schema used in this database.', '2018-12-19 19:11:47.041807+00');
 INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (16, 'db|backend', 'txt', 'django', NULL, NULL, NULL, NULL, 'The backend used to communicate with the database.', '2018-12-19 19:11:47.73447+00');
+INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (21, 'daemon|task_start|workflow_stepper', 'date', '', NULL, NULL, NULL, '2019-02-11 17:59:01.102891+00', 'The last time the daemon started to run the task ''workflow_stepper''', '2019-02-11 17:59:01.112413+00');
+INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (22, 'daemon|task_stop|workflow_stepper', 'date', '', NULL, NULL, NULL, '2019-02-11 17:59:01.118798+00', 'The last time the daemon finished to run the task ''workflow_stepper''', '2019-02-11 17:59:01.125785+00');
 
 
 --
 -- Name: db_dbsetting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
 --
 
-SELECT pg_catalog.setval('public.db_dbsetting_id_seq', 16, true);
+SELECT pg_catalog.setval('public.db_dbsetting_id_seq', 22, true);
 
 
 --
@@ -2804,8 +2815,8 @@ ALTER TABLE ONLY public.db_dbworkflowstep
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM %AIIDADB_USER%;
-GRANT ALL ON SCHEMA public TO %AIIDADB_USER%;
+REVOKE ALL ON SCHEMA public FROM aiida;
+GRANT ALL ON SCHEMA public TO aiida;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
