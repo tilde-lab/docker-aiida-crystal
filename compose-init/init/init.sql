@@ -1,4 +1,3 @@
-mesg: ttyname failed: Success
 --
 -- PostgreSQL database dump
 --
