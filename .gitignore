@@ -4,4 +4,5 @@ compose-init/sshkeys
 db/init.sql
 torquessh-withplugin/code
 torquessh-withplugin/mpi
+.idea/
 
