@@ -46,11 +46,11 @@ ENV HOME /home/aiida
 RUN mkdir -p $HOME/code/
 WORKDIR /home/aiida/code
 
-## Get latest release from git
-#RUN git clone https://github.com/aiidateam/aiida_core.git && \
-#    cd aiida_core && \
-#     git checkout v1.0.0a4 && \
-#    cd ..
+# Get latest release from git
+RUN git clone https://github.com/aiidateam/aiida_core.git && \
+    cd aiida_core && \
+    git checkout fae3dfca1f7a3936d24d472a3481ab2a8841c106 && \
+    cd ..
 
 WORKDIR /home/aiida
 # make ssh dir and create host entry for bitbucket.org
@@ -65,9 +65,9 @@ RUN mkdir $HOME/.ssh/ && \
 RUN echo 'export PATH=~/.local/bin:$PATH' >> $HOME/.bashrc
 
 # Install AiiDA
-# WORKDIR /home/aiida/code/aiida_core
-RUN pip install -U pip wheel setuptools aiida_core==1.0.0a4 ejplugins packaging --user 
-#    && pip install -e . --user --no-build-isolation
+WORKDIR /home/aiida/code/aiida_core
+RUN pip install -U pip wheel setuptools kiwipy==0.3.10 pika==1.0.0b1 topika==0.1.3 --user && \
+    pip install -e . --user --no-build-isolation
 
 # Important to end as user root!
 USER root

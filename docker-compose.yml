@@ -32,6 +32,7 @@ services:
         - aiidarepo:/home/aiida/.aiida_repo/
         - ./compose-init/sshkeys/torque:/home/aiida/.ssh/keys:Z
         - ../aiida-crystal:/home/aiida/code/aiida-crystal:Z
+        - ../mpds-aiida:/home/aiida/code/mpds-aiida:Z
      depends_on:
         - db
         - torquessh
