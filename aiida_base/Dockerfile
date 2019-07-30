@@ -1,5 +1,4 @@
 FROM phusion/baseimage:0.11
-MAINTAINER AiiDA Team <info@aiida.net>
 
 # Set correct environment variables.
 ENV HOME /root
@@ -49,7 +48,7 @@ WORKDIR /home/aiida/code
 # Get latest release from git
 RUN git clone https://github.com/aiidateam/aiida_core.git && \
     cd aiida_core && \
-    git checkout fae3dfca1f7a3936d24d472a3481ab2a8841c106 && \
+    git checkout v1.0.0b5 && \
     cd ..
 
 WORKDIR /home/aiida
@@ -66,7 +65,7 @@ RUN echo 'export PATH=~/.local/bin:$PATH' >> $HOME/.bashrc
 
 # Install AiiDA
 WORKDIR /home/aiida/code/aiida_core
-RUN pip install -U pip wheel setuptools kiwipy==0.3.10 pika==1.0.0b1 topika==0.1.3 --user && \
+RUN pip install -U pip wheel setuptools --user && \
     pip install -e . --user --no-build-isolation
 
 # Important to end as user root!

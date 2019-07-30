@@ -150,53 +150,13 @@ ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
 
 
 --
--- Name: db_dbattribute; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbattribute (
-    id integer NOT NULL,
-    key character varying(1024) NOT NULL,
-    datatype character varying(10) NOT NULL,
-    tval text NOT NULL,
-    fval double precision,
-    ival integer,
-    bval boolean,
-    dval timestamp with time zone,
-    dbnode_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbattribute OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbattribute_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbattribute_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbattribute_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbattribute_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbattribute_id_seq OWNED BY public.db_dbattribute.id;
-
-
---
 -- Name: db_dbauthinfo; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
 --
 
 CREATE TABLE public.db_dbauthinfo (
     id integer NOT NULL,
-    auth_params text NOT NULL,
-    metadata text NOT NULL,
+    auth_params jsonb NOT NULL,
+    metadata jsonb NOT NULL,
     enabled boolean NOT NULL,
     aiidauser_id integer NOT NULL,
     dbcomputer_id integer NOT NULL
@@ -227,47 +187,12 @@ ALTER SEQUENCE public.db_dbauthinfo_id_seq OWNED BY public.db_dbauthinfo.id;
 
 
 --
--- Name: db_dbcalcstate; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbcalcstate (
-    id integer NOT NULL,
-    state character varying(25) NOT NULL,
-    "time" timestamp with time zone NOT NULL,
-    dbnode_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbcalcstate OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbcalcstate_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbcalcstate_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbcalcstate_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbcalcstate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbcalcstate_id_seq OWNED BY public.db_dbcalcstate.id;
-
-
---
 -- Name: db_dbcomment; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
 --
 
 CREATE TABLE public.db_dbcomment (
     id integer NOT NULL,
-    uuid character varying(36) NOT NULL,
+    uuid uuid NOT NULL,
     ctime timestamp with time zone NOT NULL,
     mtime timestamp with time zone NOT NULL,
     content text NOT NULL,
@@ -305,15 +230,13 @@ ALTER SEQUENCE public.db_dbcomment_id_seq OWNED BY public.db_dbcomment.id;
 
 CREATE TABLE public.db_dbcomputer (
     id integer NOT NULL,
-    uuid character varying(36) NOT NULL,
+    uuid uuid NOT NULL,
     name character varying(255) NOT NULL,
     hostname character varying(255) NOT NULL,
     description text NOT NULL,
-    enabled boolean NOT NULL,
     transport_type character varying(255) NOT NULL,
     scheduler_type character varying(255) NOT NULL,
-    transport_params text NOT NULL,
-    metadata text NOT NULL
+    metadata jsonb NOT NULL
 );
 
 
@@ -341,54 +264,14 @@ ALTER SEQUENCE public.db_dbcomputer_id_seq OWNED BY public.db_dbcomputer.id;
 
 
 --
--- Name: db_dbextra; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbextra (
-    id integer NOT NULL,
-    key character varying(1024) NOT NULL,
-    datatype character varying(10) NOT NULL,
-    tval text NOT NULL,
-    fval double precision,
-    ival integer,
-    bval boolean,
-    dval timestamp with time zone,
-    dbnode_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbextra OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbextra_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbextra_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbextra_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbextra_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbextra_id_seq OWNED BY public.db_dbextra.id;
-
-
---
 -- Name: db_dbgroup; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
 --
 
 CREATE TABLE public.db_dbgroup (
     id integer NOT NULL,
-    uuid character varying(36) NOT NULL,
-    name character varying(255) NOT NULL,
-    type character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
+    label character varying(255) NOT NULL,
+    type_string character varying(255) NOT NULL,
     "time" timestamp with time zone NOT NULL,
     description text NOT NULL,
     user_id integer NOT NULL
@@ -497,10 +380,10 @@ CREATE TABLE public.db_dblog (
     "time" timestamp with time zone NOT NULL,
     loggername character varying(255) NOT NULL,
     levelname character varying(50) NOT NULL,
-    objname character varying(255) NOT NULL,
-    objpk integer,
     message text NOT NULL,
-    metadata text NOT NULL
+    metadata jsonb NOT NULL,
+    dbnode_id integer NOT NULL,
+    uuid uuid NOT NULL
 );
 
 
@@ -533,17 +416,17 @@ ALTER SEQUENCE public.db_dblog_id_seq OWNED BY public.db_dblog.id;
 
 CREATE TABLE public.db_dbnode (
     id integer NOT NULL,
-    uuid character varying(36) NOT NULL,
-    type character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
+    node_type character varying(255) NOT NULL,
     label character varying(255) NOT NULL,
     description text NOT NULL,
     ctime timestamp with time zone NOT NULL,
     mtime timestamp with time zone NOT NULL,
-    nodeversion integer NOT NULL,
-    public boolean NOT NULL,
     dbcomputer_id integer,
     user_id integer NOT NULL,
-    process_type character varying(255)
+    process_type character varying(255),
+    attributes jsonb,
+    extras jsonb
 );
 
 
@@ -577,14 +460,9 @@ ALTER SEQUENCE public.db_dbnode_id_seq OWNED BY public.db_dbnode.id;
 CREATE TABLE public.db_dbsetting (
     id integer NOT NULL,
     key character varying(1024) NOT NULL,
-    datatype character varying(10) NOT NULL,
-    tval text NOT NULL,
-    fval double precision,
-    ival integer,
-    bval boolean,
-    dval timestamp with time zone,
     description text NOT NULL,
-    "time" timestamp with time zone NOT NULL
+    "time" timestamp with time zone NOT NULL,
+    val jsonb
 );
 
 
@@ -617,54 +495,14 @@ ALTER SEQUENCE public.db_dbsetting_id_seq OWNED BY public.db_dbsetting.id;
 
 CREATE TABLE public.db_dbuser (
     id integer NOT NULL,
-    password character varying(128) NOT NULL,
-    last_login timestamp with time zone,
-    is_superuser boolean NOT NULL,
     email character varying(254) NOT NULL,
     first_name character varying(254) NOT NULL,
     last_name character varying(254) NOT NULL,
-    institution character varying(254) NOT NULL,
-    is_staff boolean NOT NULL,
-    is_active boolean NOT NULL,
-    date_joined timestamp with time zone NOT NULL
+    institution character varying(254) NOT NULL
 );
 
 
 ALTER TABLE public.db_dbuser OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbuser_groups; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbuser_groups (
-    id integer NOT NULL,
-    dbuser_id integer NOT NULL,
-    group_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbuser_groups OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbuser_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbuser_groups_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbuser_groups_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbuser_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbuser_groups_id_seq OWNED BY public.db_dbuser_groups.id;
-
 
 --
 -- Name: db_dbuser_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
@@ -685,231 +523,6 @@ ALTER TABLE public.db_dbuser_id_seq OWNER TO %AIIDADB_USER%;
 --
 
 ALTER SEQUENCE public.db_dbuser_id_seq OWNED BY public.db_dbuser.id;
-
-
---
--- Name: db_dbuser_user_permissions; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbuser_user_permissions (
-    id integer NOT NULL,
-    dbuser_id integer NOT NULL,
-    permission_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbuser_user_permissions OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbuser_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbuser_user_permissions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbuser_user_permissions_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbuser_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbuser_user_permissions_id_seq OWNED BY public.db_dbuser_user_permissions.id;
-
-
---
--- Name: db_dbworkflow; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbworkflow (
-    id integer NOT NULL,
-    uuid character varying(36) NOT NULL,
-    ctime timestamp with time zone NOT NULL,
-    mtime timestamp with time zone NOT NULL,
-    label character varying(255) NOT NULL,
-    description text NOT NULL,
-    nodeversion integer NOT NULL,
-    lastsyncedversion integer NOT NULL,
-    state character varying(255) NOT NULL,
-    report text NOT NULL,
-    module text NOT NULL,
-    module_class text NOT NULL,
-    script_path text NOT NULL,
-    script_md5 character varying(255) NOT NULL,
-    user_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbworkflow OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflow_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbworkflow_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbworkflow_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflow_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbworkflow_id_seq OWNED BY public.db_dbworkflow.id;
-
-
---
--- Name: db_dbworkflowdata; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbworkflowdata (
-    id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    "time" timestamp with time zone NOT NULL,
-    data_type character varying(255) NOT NULL,
-    value_type character varying(255) NOT NULL,
-    json_value text NOT NULL,
-    aiida_obj_id integer,
-    parent_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbworkflowdata OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowdata_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbworkflowdata_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbworkflowdata_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowdata_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbworkflowdata_id_seq OWNED BY public.db_dbworkflowdata.id;
-
-
---
--- Name: db_dbworkflowstep; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbworkflowstep (
-    id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    "time" timestamp with time zone NOT NULL,
-    nextcall character varying(255) NOT NULL,
-    state character varying(255) NOT NULL,
-    parent_id integer NOT NULL,
-    user_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbworkflowstep OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_calculations; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbworkflowstep_calculations (
-    id integer NOT NULL,
-    dbworkflowstep_id integer NOT NULL,
-    dbnode_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbworkflowstep_calculations OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_calculations_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbworkflowstep_calculations_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbworkflowstep_calculations_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_calculations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbworkflowstep_calculations_id_seq OWNED BY public.db_dbworkflowstep_calculations.id;
-
-
---
--- Name: db_dbworkflowstep_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbworkflowstep_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbworkflowstep_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbworkflowstep_id_seq OWNED BY public.db_dbworkflowstep.id;
-
-
---
--- Name: db_dbworkflowstep_sub_workflows; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE TABLE public.db_dbworkflowstep_sub_workflows (
-    id integer NOT NULL,
-    dbworkflowstep_id integer NOT NULL,
-    dbworkflow_id integer NOT NULL
-);
-
-
-ALTER TABLE public.db_dbworkflowstep_sub_workflows OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_sub_workflows_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE SEQUENCE public.db_dbworkflowstep_sub_workflows_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.db_dbworkflowstep_sub_workflows_id_seq OWNER TO %AIIDADB_USER%;
-
---
--- Name: db_dbworkflowstep_sub_workflows_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER SEQUENCE public.db_dbworkflowstep_sub_workflows_id_seq OWNED BY public.db_dbworkflowstep_sub_workflows.id;
 
 
 --
@@ -1053,21 +666,7 @@ ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('pub
 -- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
 --
 
-ALTER TABLE ONLY public.db_dbattribute ALTER COLUMN id SET DEFAULT nextval('public.db_dbattribute_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
 ALTER TABLE ONLY public.db_dbauthinfo ALTER COLUMN id SET DEFAULT nextval('public.db_dbauthinfo_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbcalcstate ALTER COLUMN id SET DEFAULT nextval('public.db_dbcalcstate_id_seq'::regclass);
 
 
 --
@@ -1082,13 +681,6 @@ ALTER TABLE ONLY public.db_dbcomment ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.db_dbcomputer ALTER COLUMN id SET DEFAULT nextval('public.db_dbcomputer_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbextra ALTER COLUMN id SET DEFAULT nextval('public.db_dbextra_id_seq'::regclass);
 
 
 --
@@ -1138,55 +730,6 @@ ALTER TABLE ONLY public.db_dbsetting ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.db_dbuser ALTER COLUMN id SET DEFAULT nextval('public.db_dbuser_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_groups ALTER COLUMN id SET DEFAULT nextval('public.db_dbuser_groups_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.db_dbuser_user_permissions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflow ALTER COLUMN id SET DEFAULT nextval('public.db_dbworkflow_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowdata ALTER COLUMN id SET DEFAULT nextval('public.db_dbworkflowdata_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep ALTER COLUMN id SET DEFAULT nextval('public.db_dbworkflowstep_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_calculations ALTER COLUMN id SET DEFAULT nextval('public.db_dbworkflowstep_calculations_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_sub_workflows ALTER COLUMN id SET DEFAULT nextval('public.db_dbworkflowstep_sub_workflows_id_seq'::regclass);
 
 
 --
@@ -1310,38 +853,10 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 60, true);
 
 
 --
--- Data for Name: db_dbattribute; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (1, 'is_local', 'bool', '', NULL, NULL, false, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (2, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (3, 'remote_exec_path', 'txt', '/usr/bin/crystal', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (4, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, 'input_plugin', 'txt', 'crystal.serial', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (6, 'is_local', 'bool', '', NULL, NULL, false, NULL, 2);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (7, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 2);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (8, 'remote_exec_path', 'txt', '/usr/bin/Pcrystal', NULL, NULL, NULL, NULL, 2);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (9, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 2);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (10, 'input_plugin', 'txt', 'crystal.parallel', NULL, NULL, NULL, NULL, 2);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (11, 'is_local', 'bool', '', NULL, NULL, false, NULL, 3);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (12, 'append_text', 'txt', '', NULL, NULL, NULL, NULL, 3);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (13, 'remote_exec_path', 'txt', '/usr/bin/properties', NULL, NULL, NULL, NULL, 3);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (14, 'prepend_text', 'txt', '', NULL, NULL, NULL, NULL, 3);
-INSERT INTO public.db_dbattribute (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (15, 'input_plugin', 'txt', 'crystal.properties', NULL, NULL, NULL, NULL, 3);
-
-
---
--- Name: db_dbattribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbattribute_id_seq', 15, true);
-
-
---
 -- Data for Name: db_dbauthinfo; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbauthinfo (id, auth_params, metadata, enabled, aiidauser_id, dbcomputer_id) VALUES (1, '{"username": "app", "proxy_command": null, "allow_agent": false, "load_system_host_keys": true, "key_filename": "/home/aiida/.ssh/id_rsa", "compress": true, "key_policy": "AutoAddPolicy", "gss_auth": null, "timeout": 60, "gss_kex": null, "gss_host": "torquessh", "safe_interval": 5, "port": 22, "gss_deleg_creds": null, "look_for_keys": false}', '{}', true, 1, 1);
+INSERT INTO public.db_dbauthinfo (id, auth_params, metadata, enabled, aiidauser_id, dbcomputer_id) VALUES (1, '{"port": 22, "gss_kex": null, "timeout": 60, "compress": true, "gss_auth": null, "gss_host": "torquessh", "username": "app", "key_policy": "AutoAddPolicy", "allow_agent": false, "key_filename": "/home/aiida/.ssh/id_rsa", "look_for_keys": false, "proxy_command": null, "safe_interval": 5, "gss_deleg_creds": null, "load_system_host_keys": true}', '{}', true, 1, 1);
 
 
 --
@@ -1349,19 +864,6 @@ INSERT INTO public.db_dbauthinfo (id, auth_params, metadata, enabled, aiidauser_
 --
 
 SELECT pg_catalog.setval('public.db_dbauthinfo_id_seq', 1, true);
-
-
---
--- Data for Name: db_dbcalcstate; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbcalcstate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbcalcstate_id_seq', 1, false);
 
 
 --
@@ -1381,7 +883,7 @@ SELECT pg_catalog.setval('public.db_dbcomment_id_seq', 1, false);
 -- Data for Name: db_dbcomputer; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbcomputer (id, uuid, name, hostname, description, enabled, transport_type, scheduler_type, transport_params, metadata) VALUES (1, '0daf0d94-ac58-436a-a034-2fd1f1be14e9', 'torquessh', 'torquessh', '', true, 'ssh', 'torque', '{}', '{"append_text": "", "mpirun_command": ["mpirun", "-np", "{tot_num_mpiprocs}"], "workdir": "/scratch/{username}/aiida/", "prepend_text": "", "shebang": "#!/bin/bash"}');
+INSERT INTO public.db_dbcomputer (id, uuid, name, hostname, description, transport_type, scheduler_type, metadata) VALUES (1, '0daf0d94-ac58-436a-a034-2fd1f1be14e9', 'torquessh', 'torquessh', '', 'ssh', 'torque', '{"shebang": "#!/bin/bash", "workdir": "/scratch/{username}/aiida/", "append_text": "", "prepend_text": "", "mpirun_command": ["mpirun", "-np", "{tot_num_mpiprocs}"]}');
 
 
 --
@@ -1389,25 +891,6 @@ INSERT INTO public.db_dbcomputer (id, uuid, name, hostname, description, enabled
 --
 
 SELECT pg_catalog.setval('public.db_dbcomputer_id_seq', 1, true);
-
-
---
--- Data for Name: db_dbextra; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (1, '_aiida_hash', 'txt', '6eb184ab3fa78f5dca324138e55a3933699614e0bb1f2e5edb8e60688a975bf2', NULL, NULL, NULL, NULL, 1);
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (2, 'hidden', 'bool', '', NULL, NULL, false, NULL, 1);
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (3, '_aiida_hash', 'txt', 'e6b2313f2323c4ea0aaf1564e8d09d49cefd02cc8c73412ab728ccb30617b710', NULL, NULL, NULL, NULL, 2);
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (4, 'hidden', 'bool', '', NULL, NULL, false, NULL, 2);
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (5, '_aiida_hash', 'txt', '4b565be056228d87649b429499be3fbd568357c535f14bc37b7f60683db78141', NULL, NULL, NULL, NULL, 3);
-INSERT INTO public.db_dbextra (id, key, datatype, tval, fval, ival, bval, dval, dbnode_id) VALUES (6, 'hidden', 'bool', '', NULL, NULL, false, NULL, 3);
-
-
---
--- Name: db_dbextra_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbextra_id_seq', 6, true);
 
 
 --
@@ -1466,9 +949,9 @@ SELECT pg_catalog.setval('public.db_dblog_id_seq', 1, false);
 -- Data for Name: db_dbnode; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (1, '8e729966-b5aa-4425-a831-cc0e3a6163ad', 'code.Code.', 'crystal', '', '2018-12-19 19:12:53.559278+00', '2018-12-19 19:12:53.700292+00', 2, false, 1, 1, NULL);
-INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (2, '200873cd-6200-4f06-b9ac-c0645e2b50d4', 'code.Code.', 'Pcrystal', '', '2019-02-11 17:58:51.676932+00', '2019-02-11 17:58:51.742149+00', 2, false, 1, 1, NULL);
-INSERT INTO public.db_dbnode (id, uuid, type, label, description, ctime, mtime, nodeversion, public, dbcomputer_id, user_id, process_type) VALUES (3, '1dd8156d-a893-4b83-b7ac-7368d92d3640', 'code.Code.', 'properties', '', '2019-03-05 18:46:14.813103+00', '2019-03-05 18:46:14.841509+00', 2, false, 1, 1, NULL);
+INSERT INTO public.db_dbnode (id, uuid, node_type, label, description, ctime, mtime, dbcomputer_id, user_id, process_type, attributes, extras) VALUES (1, '8e729966-b5aa-4425-a831-cc0e3a6163ad', 'data.code.Code.', 'crystal', '', '2018-12-19 19:12:53.559278+00', '2019-07-30 20:31:52.125349+00', 1, 1, NULL, '{"is_local": false, "append_text": "", "input_plugin": "crystal.serial", "prepend_text": "", "remote_exec_path": "/usr/bin/crystal"}', '{"hidden": false, "_aiida_hash": "240f263caa2d4a61ce30b84bccfc6fa353a7ec7030ca4136c8393e3df27d8a87"}');
+INSERT INTO public.db_dbnode (id, uuid, node_type, label, description, ctime, mtime, dbcomputer_id, user_id, process_type, attributes, extras) VALUES (2, '200873cd-6200-4f06-b9ac-c0645e2b50d4', 'data.code.Code.', 'Pcrystal', '', '2019-02-11 17:58:51.676932+00', '2019-07-30 20:31:52.135025+00', 1, 1, NULL, '{"is_local": false, "append_text": "", "input_plugin": "crystal.parallel", "prepend_text": "", "remote_exec_path": "/usr/bin/Pcrystal"}', '{"hidden": false, "_aiida_hash": "f9a9c5639314137772aa398d0a8a5050625819131c2d5589a06ea6de9302c834"}');
+INSERT INTO public.db_dbnode (id, uuid, node_type, label, description, ctime, mtime, dbcomputer_id, user_id, process_type, attributes, extras) VALUES (3, '1dd8156d-a893-4b83-b7ac-7368d92d3640', 'data.code.Code.', 'properties', '', '2019-03-05 18:46:14.813103+00', '2019-07-30 20:31:52.144793+00', 1, 1, NULL, '{"is_local": false, "append_text": "", "input_plugin": "crystal.properties", "prepend_text": "", "remote_exec_path": "/usr/bin/properties"}', '{"hidden": false, "_aiida_hash": "295510991c529f2a625db099259010e96fc0c479c4d11d8cc559a97d587c996b"}');
 
 
 --
@@ -1482,10 +965,10 @@ SELECT pg_catalog.setval('public.db_dbnode_id_seq', 3, true);
 -- Data for Name: db_dbsetting; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (15, 'db|schemaversion', 'txt', '1.0.15', NULL, NULL, NULL, NULL, 'The version of the schema used in this database.', '2018-12-19 19:11:47.041807+00');
-INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (16, 'db|backend', 'txt', 'django', NULL, NULL, NULL, NULL, 'The backend used to communicate with the database.', '2018-12-19 19:11:47.73447+00');
-INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (37, 'daemon|task_start|workflow_stepper', 'date', '', NULL, NULL, NULL, '2019-03-05 18:46:20.386132+00', 'The last time the daemon started to run the task ''workflow_stepper''', '2019-03-05 18:46:20.395603+00');
-INSERT INTO public.db_dbsetting (id, key, datatype, tval, fval, ival, bval, dval, description, "time") VALUES (38, 'daemon|task_stop|workflow_stepper', 'date', '', NULL, NULL, NULL, '2019-03-05 18:46:20.400081+00', 'The last time the daemon finished to run the task ''workflow_stepper''', '2019-03-05 18:46:20.405189+00');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (16, 'db|backend', 'The backend used to communicate with the database.', '2019-07-30 20:31:41.927069+00', '"django"');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (37, 'daemon|task_start|workflow_stepper', 'The last time the daemon started to run the task ''workflow_stepper''', '2019-07-30 20:31:41.927934+00', '"2019-03-05T18:46:20.386132+00:00"');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (38, 'daemon|task_stop|workflow_stepper', 'The last time the daemon finished to run the task ''workflow_stepper''', '2019-07-30 20:31:41.928773+00', '"2019-03-05T18:46:20.400081+00:00"');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (15, 'db|schemaversion', 'The version of the schema used in this database.', '2019-07-30 20:31:42.107691+00', '"1.0.40"');
 
 
 --
@@ -1499,20 +982,7 @@ SELECT pg_catalog.setval('public.db_dbsetting_id_seq', 38, true);
 -- Data for Name: db_dbuser; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
 --
 
-INSERT INTO public.db_dbuser (id, password, last_login, is_superuser, email, first_name, last_name, institution, is_staff, is_active, date_joined) VALUES (1, '', NULL, false, 'aiida@localhost', 'AiiDA', 'Daemon', '', false, true, '2018-12-19 19:11:47.75914+00');
-
-
---
--- Data for Name: db_dbuser_groups; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbuser_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbuser_groups_id_seq', 1, false);
+INSERT INTO public.db_dbuser (id, email, first_name, last_name, institution) VALUES (1, 'aiida@localhost', 'AiiDA', 'Daemon', '');
 
 
 --
@@ -1520,84 +990,6 @@ SELECT pg_catalog.setval('public.db_dbuser_groups_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.db_dbuser_id_seq', 1, true);
-
-
---
--- Data for Name: db_dbuser_user_permissions; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbuser_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbuser_user_permissions_id_seq', 1, false);
-
-
---
--- Data for Name: db_dbworkflow; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbworkflow_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbworkflow_id_seq', 1, false);
-
-
---
--- Data for Name: db_dbworkflowdata; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbworkflowdata_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbworkflowdata_id_seq', 1, false);
-
-
---
--- Data for Name: db_dbworkflowstep; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Data for Name: db_dbworkflowstep_calculations; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbworkflowstep_calculations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbworkflowstep_calculations_id_seq', 1, false);
-
-
---
--- Name: db_dbworkflowstep_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbworkflowstep_id_seq', 1, false);
-
-
---
--- Data for Name: db_dbworkflowstep_sub_workflows; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
-
-
---
--- Name: db_dbworkflowstep_sub_workflows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
---
-
-SELECT pg_catalog.setval('public.db_dbworkflowstep_sub_workflows_id_seq', 1, false);
 
 
 --
@@ -1662,13 +1054,40 @@ INSERT INTO public.django_migrations (id, app, name, applied) VALUES (22, 'db', 
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (23, 'db', '0015_invalidating_node_hash', '2018-12-19 19:11:47.051878+00');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (24, 'sessions', '0001_initial', '2018-12-19 19:11:47.141055+00');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (25, 'sites', '0001_initial', '2018-12-19 19:11:47.222329+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (26, 'auth', '0007_alter_validators_add_error_messages', '2019-07-30 20:31:39.530279+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (27, 'auth', '0008_alter_user_username_max_length', '2019-07-30 20:31:39.547393+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (28, 'db', '0016_code_sub_class_of_data', '2019-07-30 20:31:39.594077+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (29, 'db', '0017_drop_dbcalcstate', '2019-07-30 20:31:39.64378+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (30, 'db', '0018_django_1_11', '2019-07-30 20:31:39.989448+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (31, 'db', '0019_migrate_builtin_calculations', '2019-07-30 20:31:40.030425+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (32, 'db', '0020_provenance_redesign', '2019-07-30 20:31:40.131486+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (33, 'db', '0021_dbgroup_name_to_label_type_to_type_string', '2019-07-30 20:31:40.292949+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (34, 'db', '0022_dbgroup_type_string_change_content', '2019-07-30 20:31:40.339387+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (35, 'db', '0023_calc_job_option_attribute_keys', '2019-07-30 20:31:40.380046+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (36, 'db', '0024_dblog_update', '2019-07-30 20:31:40.641696+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (37, 'db', '0025_move_data_within_node_module', '2019-07-30 20:31:40.68091+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (38, 'db', '0026_trajectory_symbols_to_attribute', '2019-07-30 20:31:40.749673+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (39, 'db', '0027_delete_trajectory_symbols_array', '2019-07-30 20:31:40.814059+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (40, 'db', '0028_remove_node_prefix', '2019-07-30 20:31:40.849151+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (41, 'db', '0029_rename_parameter_data_to_dict', '2019-07-30 20:31:40.886211+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (42, 'db', '0030_dbnode_type_to_dbnode_node_type', '2019-07-30 20:31:40.940048+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (43, 'db', '0031_remove_dbcomputer_enabled', '2019-07-30 20:31:40.979434+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (44, 'db', '0032_remove_legacy_workflows', '2019-07-30 20:31:41.322364+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (45, 'db', '0033_replace_text_field_with_json_field', '2019-07-30 20:31:41.533926+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (46, 'db', '0034_drop_node_columns_nodeversion_public', '2019-07-30 20:31:41.59763+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (47, 'db', '0035_simplify_user_model', '2019-07-30 20:31:41.731815+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (48, 'db', '0036_drop_computer_transport_params', '2019-07-30 20:31:41.766828+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (49, 'db', '0037_attributes_extras_settings_json', '2019-07-30 20:31:42.012979+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (50, 'db', '0038_data_migration_legacy_job_calculations', '2019-07-30 20:31:42.041617+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (51, 'db', '0039_reset_hash', '2019-07-30 20:31:42.081571+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (52, 'db', '0040_data_migration_legacy_process_attributes', '2019-07-30 20:31:42.111211+00');
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 25, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 52, true);
 
 
 --
@@ -1740,22 +1159,6 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: db_dbattribute_dbnode_id_10206dc8cec3d0be_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbattribute
-    ADD CONSTRAINT db_dbattribute_dbnode_id_10206dc8cec3d0be_uniq UNIQUE (dbnode_id, key);
-
-
---
--- Name: db_dbattribute_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbattribute
-    ADD CONSTRAINT db_dbattribute_pkey PRIMARY KEY (id);
-
-
---
 -- Name: db_dbauthinfo_aiidauser_id_5b91ddd9ac6ddd83_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -1772,27 +1175,19 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbcalcstate_dbnode_id_45de92d4e5e6b644_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbcalcstate
-    ADD CONSTRAINT db_dbcalcstate_dbnode_id_45de92d4e5e6b644_uniq UNIQUE (dbnode_id, state);
-
-
---
--- Name: db_dbcalcstate_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbcalcstate
-    ADD CONSTRAINT db_dbcalcstate_pkey PRIMARY KEY (id);
-
-
---
 -- Name: db_dbcomment_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
 ALTER TABLE ONLY public.db_dbcomment
     ADD CONSTRAINT db_dbcomment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: db_dbcomment_uuid_49bac08c_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+--
+
+ALTER TABLE ONLY public.db_dbcomment
+    ADD CONSTRAINT db_dbcomment_uuid_49bac08c_uniq UNIQUE (uuid);
 
 
 --
@@ -1812,19 +1207,11 @@ ALTER TABLE ONLY public.db_dbcomputer
 
 
 --
--- Name: db_dbextra_dbnode_id_2a99ce873931fdd4_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_uuid_f35defa6_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
-ALTER TABLE ONLY public.db_dbextra
-    ADD CONSTRAINT db_dbextra_dbnode_id_2a99ce873931fdd4_uniq UNIQUE (dbnode_id, key);
-
-
---
--- Name: db_dbextra_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbextra
-    ADD CONSTRAINT db_dbextra_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.db_dbcomputer
+    ADD CONSTRAINT db_dbcomputer_uuid_f35defa6_uniq UNIQUE (uuid);
 
 
 --
@@ -1848,7 +1235,7 @@ ALTER TABLE ONLY public.db_dbgroup_dbnodes
 --
 
 ALTER TABLE ONLY public.db_dbgroup
-    ADD CONSTRAINT db_dbgroup_name_680159c7377fefd_uniq UNIQUE (name, type);
+    ADD CONSTRAINT db_dbgroup_name_680159c7377fefd_uniq UNIQUE (label, type_string);
 
 
 --
@@ -1857,6 +1244,14 @@ ALTER TABLE ONLY public.db_dbgroup
 
 ALTER TABLE ONLY public.db_dbgroup
     ADD CONSTRAINT db_dbgroup_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: db_dbgroup_uuid_af896177_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+--
+
+ALTER TABLE ONLY public.db_dbgroup
+    ADD CONSTRAINT db_dbgroup_uuid_af896177_uniq UNIQUE (uuid);
 
 
 --
@@ -1876,6 +1271,14 @@ ALTER TABLE ONLY public.db_dblog
 
 
 --
+-- Name: db_dblog_uuid_9cf77df3_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+--
+
+ALTER TABLE ONLY public.db_dblog
+    ADD CONSTRAINT db_dblog_uuid_9cf77df3_uniq UNIQUE (uuid);
+
+
+--
 -- Name: db_dbnode_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -1884,19 +1287,19 @@ ALTER TABLE ONLY public.db_dbnode
 
 
 --
--- Name: db_dbnode_uuid_711fa857427da5e6_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_uuid_62e0bf98_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
 ALTER TABLE ONLY public.db_dbnode
-    ADD CONSTRAINT db_dbnode_uuid_711fa857427da5e6_uniq UNIQUE (uuid);
+    ADD CONSTRAINT db_dbnode_uuid_62e0bf98_uniq UNIQUE (uuid);
 
 
 --
--- Name: db_dbsetting_key_4cac773d062e1744_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_key_1b84beb4_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
 ALTER TABLE ONLY public.db_dbsetting
-    ADD CONSTRAINT db_dbsetting_key_4cac773d062e1744_uniq UNIQUE (key);
+    ADD CONSTRAINT db_dbsetting_key_1b84beb4_uniq UNIQUE (key);
 
 
 --
@@ -1908,19 +1311,11 @@ ALTER TABLE ONLY public.db_dbsetting
 
 
 --
--- Name: db_dbuser_groups_dbuser_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_email_30150b7e_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
-ALTER TABLE ONLY public.db_dbuser_groups
-    ADD CONSTRAINT db_dbuser_groups_dbuser_id_group_id_key UNIQUE (dbuser_id, group_id);
-
-
---
--- Name: db_dbuser_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_groups
-    ADD CONSTRAINT db_dbuser_groups_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.db_dbuser
+    ADD CONSTRAINT db_dbuser_email_30150b7e_uniq UNIQUE (email);
 
 
 --
@@ -1929,94 +1324,6 @@ ALTER TABLE ONLY public.db_dbuser_groups
 
 ALTER TABLE ONLY public.db_dbuser
     ADD CONSTRAINT db_dbuser_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbuser_user_permissions_dbuser_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_user_permissions
-    ADD CONSTRAINT db_dbuser_user_permissions_dbuser_id_permission_id_key UNIQUE (dbuser_id, permission_id);
-
-
---
--- Name: db_dbuser_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_user_permissions
-    ADD CONSTRAINT db_dbuser_user_permissions_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbworkflow_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflow
-    ADD CONSTRAINT db_dbworkflow_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbworkflowdata_parent_id_1f60f874e728c5f0_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowdata
-    ADD CONSTRAINT db_dbworkflowdata_parent_id_1f60f874e728c5f0_uniq UNIQUE (parent_id, name, data_type);
-
-
---
--- Name: db_dbworkflowdata_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowdata
-    ADD CONSTRAINT db_dbworkflowdata_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbworkflowstep_calculations_dbworkflowstep_id_dbnode_id_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_calculations
-    ADD CONSTRAINT db_dbworkflowstep_calculations_dbworkflowstep_id_dbnode_id_key UNIQUE (dbworkflowstep_id, dbnode_id);
-
-
---
--- Name: db_dbworkflowstep_calculations_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_calculations
-    ADD CONSTRAINT db_dbworkflowstep_calculations_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbworkflowstep_parent_id_57c505d36f0f2dd3_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep
-    ADD CONSTRAINT db_dbworkflowstep_parent_id_57c505d36f0f2dd3_uniq UNIQUE (parent_id, name);
-
-
---
--- Name: db_dbworkflowstep_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep
-    ADD CONSTRAINT db_dbworkflowstep_pkey PRIMARY KEY (id);
-
-
---
--- Name: db_dbworkflowstep_sub_workflo_dbworkflowstep_id_dbworkflow__key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_sub_workflows
-    ADD CONSTRAINT db_dbworkflowstep_sub_workflo_dbworkflowstep_id_dbworkflow__key UNIQUE (dbworkflowstep_id, dbworkflow_id);
-
-
---
--- Name: db_dbworkflowstep_sub_workflows_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_sub_workflows
-    ADD CONSTRAINT db_dbworkflowstep_sub_workflows_pkey PRIMARY KEY (id);
 
 
 --
@@ -2088,41 +1395,6 @@ CREATE INDEX auth_permission_417f1b1c ON public.auth_permission USING btree (con
 
 
 --
--- Name: db_dbattribute_3931108d; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbattribute_3931108d ON public.db_dbattribute USING btree (datatype);
-
-
---
--- Name: db_dbattribute_3c6e0b8a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbattribute_3c6e0b8a ON public.db_dbattribute USING btree (key);
-
-
---
--- Name: db_dbattribute_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbattribute_7a672316 ON public.db_dbattribute USING btree (dbnode_id);
-
-
---
--- Name: db_dbattribute_datatype_7e609aede7da800c_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbattribute_datatype_7e609aede7da800c_like ON public.db_dbattribute USING btree (datatype varchar_pattern_ops);
-
-
---
--- Name: db_dbattribute_key_6936ff5c4f96a1be_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbattribute_key_6936ff5c4f96a1be_like ON public.db_dbattribute USING btree (key varchar_pattern_ops);
-
-
---
 -- Name: db_dbauthinfo_669c815a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -2134,27 +1406,6 @@ CREATE INDEX db_dbauthinfo_669c815a ON public.db_dbauthinfo USING btree (aiidaus
 --
 
 CREATE INDEX db_dbauthinfo_9ed6a91c ON public.db_dbauthinfo USING btree (dbcomputer_id);
-
-
---
--- Name: db_dbcalcstate_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbcalcstate_7a672316 ON public.db_dbcalcstate USING btree (dbnode_id);
-
-
---
--- Name: db_dbcalcstate_9ed39e2e; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbcalcstate_9ed39e2e ON public.db_dbcalcstate USING btree (state);
-
-
---
--- Name: db_dbcalcstate_state_7b15f131504dbe38_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbcalcstate_state_7b15f131504dbe38_like ON public.db_dbcalcstate USING btree (state varchar_pattern_ops);
 
 
 --
@@ -2179,52 +1430,17 @@ CREATE INDEX db_dbcomputer_name_538c8da7bbe500af_like ON public.db_dbcomputer US
 
 
 --
--- Name: db_dbextra_3931108d; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbextra_3931108d ON public.db_dbextra USING btree (datatype);
-
-
---
--- Name: db_dbextra_3c6e0b8a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbextra_3c6e0b8a ON public.db_dbextra USING btree (key);
-
-
---
--- Name: db_dbextra_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbextra_7a672316 ON public.db_dbextra USING btree (dbnode_id);
-
-
---
--- Name: db_dbextra_datatype_12730358b2c29a0a_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbextra_datatype_12730358b2c29a0a_like ON public.db_dbextra USING btree (datatype varchar_pattern_ops);
-
-
---
--- Name: db_dbextra_key_67f77eb2ec05ed40_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbextra_key_67f77eb2ec05ed40_like ON public.db_dbextra USING btree (key varchar_pattern_ops);
-
-
---
 -- Name: db_dbgroup_599dcce2; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbgroup_599dcce2 ON public.db_dbgroup USING btree (type);
+CREATE INDEX db_dbgroup_599dcce2 ON public.db_dbgroup USING btree (type_string);
 
 
 --
 -- Name: db_dbgroup_b068931c; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbgroup_b068931c ON public.db_dbgroup USING btree (name);
+CREATE INDEX db_dbgroup_b068931c ON public.db_dbgroup USING btree (label);
 
 
 --
@@ -2252,14 +1468,14 @@ CREATE INDEX db_dbgroup_e8701ad4 ON public.db_dbgroup USING btree (user_id);
 -- Name: db_dbgroup_name_30351f1c64285f22_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbgroup_name_30351f1c64285f22_like ON public.db_dbgroup USING btree (name varchar_pattern_ops);
+CREATE INDEX db_dbgroup_name_30351f1c64285f22_like ON public.db_dbgroup USING btree (label varchar_pattern_ops);
 
 
 --
 -- Name: db_dbgroup_type_49745d6ede76abdd_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbgroup_type_49745d6ede76abdd_like ON public.db_dbgroup USING btree (type varchar_pattern_ops);
+CREATE INDEX db_dbgroup_type_49745d6ede76abdd_like ON public.db_dbgroup USING btree (type_string varchar_pattern_ops);
 
 
 --
@@ -2319,17 +1535,10 @@ CREATE INDEX db_dblog_358be7bf ON public.db_dblog USING btree (loggername);
 
 
 --
--- Name: db_dblog_850eed5f; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_dbnode_id_da34b732; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dblog_850eed5f ON public.db_dblog USING btree (objpk);
-
-
---
--- Name: db_dblog_e3898037; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dblog_e3898037 ON public.db_dblog USING btree (objname);
+CREATE INDEX db_dblog_dbnode_id_da34b732 ON public.db_dblog USING btree (dbnode_id);
 
 
 --
@@ -2347,17 +1556,10 @@ CREATE INDEX db_dblog_loggername_4f4ecb812e82233_like ON public.db_dblog USING b
 
 
 --
--- Name: db_dblog_objname_704cbe43c1c08fe5_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dblog_objname_704cbe43c1c08fe5_like ON public.db_dblog USING btree (objname varchar_pattern_ops);
-
-
---
 -- Name: db_dbnode_599dcce2; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbnode_599dcce2 ON public.db_dbnode USING btree (type);
+CREATE INDEX db_dbnode_599dcce2 ON public.db_dbnode USING btree (node_type);
 
 
 --
@@ -2420,140 +1622,21 @@ CREATE INDEX db_dbnode_process_type_4aee8b4a0e613c25_like ON public.db_dbnode US
 -- Name: db_dbnode_type_4cda33f938ccd765_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbnode_type_4cda33f938ccd765_like ON public.db_dbnode USING btree (type varchar_pattern_ops);
+CREATE INDEX db_dbnode_type_4cda33f938ccd765_like ON public.db_dbnode USING btree (node_type varchar_pattern_ops);
 
 
 --
--- Name: db_dbsetting_3931108d; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_key_1b84beb4_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbsetting_3931108d ON public.db_dbsetting USING btree (datatype);
-
-
---
--- Name: db_dbsetting_3c6e0b8a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbsetting_3c6e0b8a ON public.db_dbsetting USING btree (key);
+CREATE INDEX db_dbsetting_key_1b84beb4_like ON public.db_dbsetting USING btree (key varchar_pattern_ops);
 
 
 --
--- Name: db_dbsetting_datatype_50c0180f460a7006_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_email_30150b7e_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
 --
 
-CREATE INDEX db_dbsetting_datatype_50c0180f460a7006_like ON public.db_dbsetting USING btree (datatype varchar_pattern_ops);
-
-
---
--- Name: db_dbsetting_key_4cac773d062e1744_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbsetting_key_4cac773d062e1744_like ON public.db_dbsetting USING btree (key varchar_pattern_ops);
-
-
---
--- Name: db_dbuser_groups_0e939a4f; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbuser_groups_0e939a4f ON public.db_dbuser_groups USING btree (group_id);
-
-
---
--- Name: db_dbuser_groups_b2c441d1; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbuser_groups_b2c441d1 ON public.db_dbuser_groups USING btree (dbuser_id);
-
-
---
--- Name: db_dbuser_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbuser_user_permissions_8373b171 ON public.db_dbuser_user_permissions USING btree (permission_id);
-
-
---
--- Name: db_dbuser_user_permissions_b2c441d1; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbuser_user_permissions_b2c441d1 ON public.db_dbuser_user_permissions USING btree (dbuser_id);
-
-
---
--- Name: db_dbworkflow_d304ba20; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflow_d304ba20 ON public.db_dbworkflow USING btree (label);
-
-
---
--- Name: db_dbworkflow_e8701ad4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflow_e8701ad4 ON public.db_dbworkflow USING btree (user_id);
-
-
---
--- Name: db_dbworkflow_label_55e5f0a232defa37_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflow_label_55e5f0a232defa37_like ON public.db_dbworkflow USING btree (label varchar_pattern_ops);
-
-
---
--- Name: db_dbworkflowdata_668c0731; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowdata_668c0731 ON public.db_dbworkflowdata USING btree (aiida_obj_id);
-
-
---
--- Name: db_dbworkflowdata_6be37982; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowdata_6be37982 ON public.db_dbworkflowdata USING btree (parent_id);
-
-
---
--- Name: db_dbworkflowstep_6be37982; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_6be37982 ON public.db_dbworkflowstep USING btree (parent_id);
-
-
---
--- Name: db_dbworkflowstep_calculations_1df98a0a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_calculations_1df98a0a ON public.db_dbworkflowstep_calculations USING btree (dbworkflowstep_id);
-
-
---
--- Name: db_dbworkflowstep_calculations_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_calculations_7a672316 ON public.db_dbworkflowstep_calculations USING btree (dbnode_id);
-
-
---
--- Name: db_dbworkflowstep_e8701ad4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_e8701ad4 ON public.db_dbworkflowstep USING btree (user_id);
-
-
---
--- Name: db_dbworkflowstep_sub_workflows_1df98a0a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_sub_workflows_1df98a0a ON public.db_dbworkflowstep_sub_workflows USING btree (dbworkflowstep_id);
-
-
---
--- Name: db_dbworkflowstep_sub_workflows_b6a7b7c8; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX db_dbworkflowstep_sub_workflows_b6a7b7c8 ON public.db_dbworkflowstep_sub_workflows USING btree (dbworkflow_id);
+CREATE INDEX db_dbuser_email_30150b7e_like ON public.db_dbuser USING btree (email varchar_pattern_ops);
 
 
 --
@@ -2568,13 +1651,6 @@ CREATE INDEX django_session_de54fa62 ON public.django_session USING btree (expir
 --
 
 CREATE INDEX django_session_session_key_461cfeaa630ca218_like ON public.django_session USING btree (session_key varchar_pattern_ops);
-
-
---
--- Name: tval_idx_for_daemon; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
---
-
-CREATE INDEX tval_idx_for_daemon ON public.db_dbattribute USING btree (tval) WHERE (tval = ANY (ARRAY['COMPUTED'::text, 'WITHSCHEDULER'::text, 'TOSUBMIT'::text]));
 
 
 --
@@ -2602,30 +1678,6 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: db_d_dbworkflowstep_id_1f84ab0dccc60762_fk_db_dbworkflowstep_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_calculations
-    ADD CONSTRAINT db_d_dbworkflowstep_id_1f84ab0dccc60762_fk_db_dbworkflowstep_id FOREIGN KEY (dbworkflowstep_id) REFERENCES public.db_dbworkflowstep(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_d_dbworkflowstep_id_7798ce4345e8e576_fk_db_dbworkflowstep_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_sub_workflows
-    ADD CONSTRAINT db_d_dbworkflowstep_id_7798ce4345e8e576_fk_db_dbworkflowstep_id FOREIGN KEY (dbworkflowstep_id) REFERENCES public.db_dbworkflowstep(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbattribute_dbnode_id_783fe2b9b1ee948f_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbattribute
-    ADD CONSTRAINT db_dbattribute_dbnode_id_783fe2b9b1ee948f_fk_db_dbnode_id FOREIGN KEY (dbnode_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: db_dbauthinfo_aiidauser_id_b4dbd2ecdabaa58_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -2642,14 +1694,6 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbcalcstate_dbnode_id_5ab286e6811907a3_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbcalcstate
-    ADD CONSTRAINT db_dbcalcstate_dbnode_id_5ab286e6811907a3_fk_db_dbnode_id FOREIGN KEY (dbnode_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: db_dbcomment_dbnode_id_e225ac462eb8f6c_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -2663,14 +1707,6 @@ ALTER TABLE ONLY public.db_dbcomment
 
 ALTER TABLE ONLY public.db_dbcomment
     ADD CONSTRAINT db_dbcomment_user_id_2e215134d026c3a3_fk_db_dbuser_id FOREIGN KEY (user_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbextra_dbnode_id_c556b194c79dec1_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbextra
-    ADD CONSTRAINT db_dbextra_dbnode_id_c556b194c79dec1_fk_db_dbnode_id FOREIGN KEY (dbnode_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -2714,6 +1750,14 @@ ALTER TABLE ONLY public.db_dblink
 
 
 --
+-- Name: db_dblog_dbnode_id_da34b732_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+--
+
+ALTER TABLE ONLY public.db_dblog
+    ADD CONSTRAINT db_dblog_dbnode_id_da34b732_fk_db_dbnode_id FOREIGN KEY (dbnode_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: db_dbnode_dbcomputer_id_2195c2d4d9b222ff_fk_db_dbcomputer_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
 --
 
@@ -2727,94 +1771,6 @@ ALTER TABLE ONLY public.db_dbnode
 
 ALTER TABLE ONLY public.db_dbnode
     ADD CONSTRAINT db_dbnode_user_id_43fd81cadf67f183_fk_db_dbuser_id FOREIGN KEY (user_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbuser__permission_id_77342b1287a009fe_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_user_permissions
-    ADD CONSTRAINT db_dbuser__permission_id_77342b1287a009fe_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbuser_groups_dbuser_id_6024db9daf8ecba_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_groups
-    ADD CONSTRAINT db_dbuser_groups_dbuser_id_6024db9daf8ecba_fk_db_dbuser_id FOREIGN KEY (dbuser_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbuser_groups_group_id_78e325354186e2b_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_groups
-    ADD CONSTRAINT db_dbuser_groups_group_id_78e325354186e2b_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbuser_user_permi_dbuser_id_325dd28d66e30790_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbuser_user_permissions
-    ADD CONSTRAINT db_dbuser_user_permi_dbuser_id_325dd28d66e30790_fk_db_dbuser_id FOREIGN KEY (dbuser_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflo_dbworkflow_id_4a3395f4c392c63c_fk_db_dbworkflow_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_sub_workflows
-    ADD CONSTRAINT db_dbworkflo_dbworkflow_id_4a3395f4c392c63c_fk_db_dbworkflow_id FOREIGN KEY (dbworkflow_id) REFERENCES public.db_dbworkflow(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflow_user_id_745f0415fc9f135a_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflow
-    ADD CONSTRAINT db_dbworkflow_user_id_745f0415fc9f135a_fk_db_dbuser_id FOREIGN KEY (user_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflowdat_parent_id_74e8079e6f1c8441_fk_db_dbworkflow_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowdata
-    ADD CONSTRAINT db_dbworkflowdat_parent_id_74e8079e6f1c8441_fk_db_dbworkflow_id FOREIGN KEY (parent_id) REFERENCES public.db_dbworkflow(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflowdata_aiida_obj_id_28130672924934ca_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowdata
-    ADD CONSTRAINT db_dbworkflowdata_aiida_obj_id_28130672924934ca_fk_db_dbnode_id FOREIGN KEY (aiida_obj_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflowste_parent_id_33a89b7df301ebbd_fk_db_dbworkflow_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep
-    ADD CONSTRAINT db_dbworkflowste_parent_id_33a89b7df301ebbd_fk_db_dbworkflow_id FOREIGN KEY (parent_id) REFERENCES public.db_dbworkflow(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflowstep_ca_dbnode_id_5ac7aa3704de0639_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep_calculations
-    ADD CONSTRAINT db_dbworkflowstep_ca_dbnode_id_5ac7aa3704de0639_fk_db_dbnode_id FOREIGN KEY (dbnode_id) REFERENCES public.db_dbnode(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: db_dbworkflowstep_user_id_32681ba845c275dc_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
---
-
-ALTER TABLE ONLY public.db_dbworkflowstep
-    ADD CONSTRAINT db_dbworkflowstep_user_id_32681ba845c275dc_fk_db_dbuser_id FOREIGN KEY (user_id) REFERENCES public.db_dbuser(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
