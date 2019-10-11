@@ -5,7 +5,7 @@ MAINTAINER AiiDA Team <info@aiida.net>
 CMD ["/sbin/my_init"]
 
 # Install required packages
-RUN apt-get update \ 
+RUN apt-get update \
     && apt-get install -y \
     openmpi-bin \
     && rm -rf /var/lib/apt/lists/* \
@@ -16,10 +16,10 @@ RUN apt-get update \
 
 COPY code/* /usr/bin/
 
-RUN /etc/my_init.d/01_setup-hostnames.sh && \
-    /etc/init.d/torque-server start && \
-    echo "Waiting 5 seconds to make sure the service starts..." && \
-    sleep 5 && \
-    qmgr -c "set queue batch resources_max.ncpus=2" && \
-    qmgr -c "set node torquessh np=2"
+RUN /etc/my_init.d/01_setup-hostnames.sh \
+    && /etc/init.d/torque-server start \
+    &&  echo "Waiting 5 seconds to make sure the service starts..." \
+    &&  sleep 5 \
+    &&  qmgr -c "set queue batch resources_max.ncpus=2" \
+    &&  qmgr -c "set node torquessh np=2"
 
