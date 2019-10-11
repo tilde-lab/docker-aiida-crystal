@@ -10,24 +10,35 @@ CMD ["/sbin/my_init"]
 # the pip install phase, so could be removed afterwards (and maybe
 # used in the same layer)
 
-# install required software
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    mlocate \
-    git \
-    openssh-client \
-    rabbitmq-server \
-    python2.7 \
-    && apt-get -y install \
-    python-pip \
-    ipython \
-    python2.7-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean all \
-    && updatedb
+# install debian packages
+# Note: prefix all 'apt-get install' lines with 'apt-get update' to prevent failures in partial rebuilds
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    tzdata
 
-# update pip and setuptools, required for AiiDA
-RUN pip install -U pip setuptools
+RUN apt-get update && apt-get install -y --no-install-recommends   \
+    build-essential       \
+    graphviz              \
+    python3-dev           \
+    python3-gi            \
+    python3-gi-cairo      \
+    python3-pip           \
+    python3-psycopg2      \
+    python3-setuptools    \
+    python3-tk            \
+    python3-wheel         \
+    python-tk             \
+    ssh                   \
+    git                   \
+    rabbitmq-server       \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get clean all
+
+# Set Python3 be the default python version
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+# update build-tools
+RUN pip3 install -U pip setuptools wheel
 
 # add USER (no password)
 RUN useradd -m -s /bin/bash aiida
@@ -48,7 +59,7 @@ WORKDIR /home/aiida/code
 # Get latest release from git
 RUN git clone https://github.com/aiidateam/aiida_core.git && \
     cd aiida_core && \
-    git checkout v1.0.0b5 && \
+    git checkout v1.0.0b6 && \
     cd ..
 
 WORKDIR /home/aiida
@@ -65,8 +76,7 @@ RUN echo 'export PATH=~/.local/bin:$PATH' >> $HOME/.bashrc
 
 # Install AiiDA
 WORKDIR /home/aiida/code/aiida_core
-RUN pip install -U pip wheel setuptools --user && \
-    pip install -e . --user --no-build-isolation
+RUN pip install -e . --user --no-build-isolation
 
 # Important to end as user root!
 USER root
