@@ -6,7 +6,6 @@ CMD ["/sbin/my_init"]
 
 # Install required packages
 RUN apt-get update \
-    && apt-get --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \ 
     && apt-get install -y \
     openmpi-bin \
     && rm -rf /var/lib/apt/lists/* \

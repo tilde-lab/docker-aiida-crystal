@@ -13,21 +13,19 @@ CMD ["/sbin/my_init"]
 # install debian packages
 # Note: prefix all 'apt-get install' lines with 'apt-get update' to prevent failures in partial rebuilds
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    tzdata
 
 RUN apt-get update && apt-get install -y --no-install-recommends   \
+    tzdata                \
     build-essential       \
-    graphviz              \
+    # graphviz              \
     python3-dev           \
-    python3-gi            \
-    python3-gi-cairo      \
+    # python3-gi            \
+    # python3-gi-cairo      \
     python3-pip           \
-    python3-psycopg2      \
     python3-setuptools    \
-    python3-tk            \
+    # python3-tk            \
     python3-wheel         \
-    python-tk             \
+    # python-tk             \
     ssh                   \
     git                   \
     rabbitmq-server       \
