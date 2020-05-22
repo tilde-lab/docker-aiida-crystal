@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.16
--- Dumped by pg_dump version 9.5.16
+-- Dumped from database version 9.5.22
+-- Dumped by pg_dump version 9.5.22
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -11,11 +11,12 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: %AIIDADB_NAME%; Type: DATABASE; Schema: -; Owner: %AIIDADB_USER%
+-- Name: %AIIDADB_NAME%; Type: DATABASE; Schema: -; Owner: aiida
 --
 
 \connect %AIIDADB_NAME%
@@ -26,6 +27,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -48,19 +50,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: auth_group; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.auth_group (
     id integer NOT NULL,
-    name character varying(80) NOT NULL
+    name character varying(150) NOT NULL
 );
 
 
 ALTER TABLE public.auth_group OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.auth_group_id_seq
@@ -74,14 +76,14 @@ CREATE SEQUENCE public.auth_group_id_seq
 ALTER TABLE public.auth_group_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
 
 
 --
--- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.auth_group_permissions (
@@ -94,7 +96,7 @@ CREATE TABLE public.auth_group_permissions (
 ALTER TABLE public.auth_group_permissions OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.auth_group_permissions_id_seq
@@ -108,14 +110,14 @@ CREATE SEQUENCE public.auth_group_permissions_id_seq
 ALTER TABLE public.auth_group_permissions_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
 
 
 --
--- Name: auth_permission; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.auth_permission (
@@ -129,7 +131,7 @@ CREATE TABLE public.auth_permission (
 ALTER TABLE public.auth_permission OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.auth_permission_id_seq
@@ -143,14 +145,14 @@ CREATE SEQUENCE public.auth_permission_id_seq
 ALTER TABLE public.auth_permission_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
 
 
 --
--- Name: db_dbauthinfo; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbauthinfo (
@@ -166,7 +168,7 @@ CREATE TABLE public.db_dbauthinfo (
 ALTER TABLE public.db_dbauthinfo OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbauthinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbauthinfo_id_seq
@@ -180,14 +182,14 @@ CREATE SEQUENCE public.db_dbauthinfo_id_seq
 ALTER TABLE public.db_dbauthinfo_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbauthinfo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbauthinfo_id_seq OWNED BY public.db_dbauthinfo.id;
 
 
 --
--- Name: db_dbcomment; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbcomment (
@@ -204,7 +206,7 @@ CREATE TABLE public.db_dbcomment (
 ALTER TABLE public.db_dbcomment OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbcomment_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbcomment_id_seq
@@ -218,14 +220,14 @@ CREATE SEQUENCE public.db_dbcomment_id_seq
 ALTER TABLE public.db_dbcomment_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbcomment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbcomment_id_seq OWNED BY public.db_dbcomment.id;
 
 
 --
--- Name: db_dbcomputer; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbcomputer (
@@ -243,7 +245,7 @@ CREATE TABLE public.db_dbcomputer (
 ALTER TABLE public.db_dbcomputer OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbcomputer_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbcomputer_id_seq
@@ -257,14 +259,14 @@ CREATE SEQUENCE public.db_dbcomputer_id_seq
 ALTER TABLE public.db_dbcomputer_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbcomputer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbcomputer_id_seq OWNED BY public.db_dbcomputer.id;
 
 
 --
--- Name: db_dbgroup; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbgroup (
@@ -281,7 +283,7 @@ CREATE TABLE public.db_dbgroup (
 ALTER TABLE public.db_dbgroup OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbgroup_dbnodes; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbgroup_dbnodes (
@@ -294,7 +296,7 @@ CREATE TABLE public.db_dbgroup_dbnodes (
 ALTER TABLE public.db_dbgroup_dbnodes OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbgroup_dbnodes_id_seq
@@ -308,14 +310,14 @@ CREATE SEQUENCE public.db_dbgroup_dbnodes_id_seq
 ALTER TABLE public.db_dbgroup_dbnodes_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbgroup_dbnodes_id_seq OWNED BY public.db_dbgroup_dbnodes.id;
 
 
 --
--- Name: db_dbgroup_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbgroup_id_seq
@@ -329,14 +331,14 @@ CREATE SEQUENCE public.db_dbgroup_id_seq
 ALTER TABLE public.db_dbgroup_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbgroup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbgroup_id_seq OWNED BY public.db_dbgroup.id;
 
 
 --
--- Name: db_dblink; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dblink (
@@ -351,7 +353,7 @@ CREATE TABLE public.db_dblink (
 ALTER TABLE public.db_dblink OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dblink_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dblink_id_seq
@@ -365,14 +367,14 @@ CREATE SEQUENCE public.db_dblink_id_seq
 ALTER TABLE public.db_dblink_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dblink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dblink_id_seq OWNED BY public.db_dblink.id;
 
 
 --
--- Name: db_dblog; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dblog (
@@ -390,7 +392,7 @@ CREATE TABLE public.db_dblog (
 ALTER TABLE public.db_dblog OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dblog_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dblog_id_seq
@@ -404,14 +406,14 @@ CREATE SEQUENCE public.db_dblog_id_seq
 ALTER TABLE public.db_dblog_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dblog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dblog_id_seq OWNED BY public.db_dblog.id;
 
 
 --
--- Name: db_dbnode; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbnode (
@@ -433,7 +435,7 @@ CREATE TABLE public.db_dbnode (
 ALTER TABLE public.db_dbnode OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbnode_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbnode_id_seq
@@ -447,14 +449,14 @@ CREATE SEQUENCE public.db_dbnode_id_seq
 ALTER TABLE public.db_dbnode_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbnode_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbnode_id_seq OWNED BY public.db_dbnode.id;
 
 
 --
--- Name: db_dbsetting; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbsetting (
@@ -469,7 +471,7 @@ CREATE TABLE public.db_dbsetting (
 ALTER TABLE public.db_dbsetting OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbsetting_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbsetting_id_seq
@@ -483,14 +485,14 @@ CREATE SEQUENCE public.db_dbsetting_id_seq
 ALTER TABLE public.db_dbsetting_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbsetting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbsetting_id_seq OWNED BY public.db_dbsetting.id;
 
 
 --
--- Name: db_dbuser; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.db_dbuser (
@@ -505,7 +507,7 @@ CREATE TABLE public.db_dbuser (
 ALTER TABLE public.db_dbuser OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbuser_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.db_dbuser_id_seq
@@ -519,14 +521,14 @@ CREATE SEQUENCE public.db_dbuser_id_seq
 ALTER TABLE public.db_dbuser_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: db_dbuser_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.db_dbuser_id_seq OWNED BY public.db_dbuser.id;
 
 
 --
--- Name: django_content_type; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.django_content_type (
@@ -539,7 +541,7 @@ CREATE TABLE public.django_content_type (
 ALTER TABLE public.django_content_type OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.django_content_type_id_seq
@@ -553,14 +555,14 @@ CREATE SEQUENCE public.django_content_type_id_seq
 ALTER TABLE public.django_content_type_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
 
 
 --
--- Name: django_migrations; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.django_migrations (
@@ -574,7 +576,7 @@ CREATE TABLE public.django_migrations (
 ALTER TABLE public.django_migrations OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.django_migrations_id_seq
@@ -588,14 +590,14 @@ CREATE SEQUENCE public.django_migrations_id_seq
 ALTER TABLE public.django_migrations_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
 
 
 --
--- Name: django_session; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_session; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.django_session (
@@ -608,7 +610,7 @@ CREATE TABLE public.django_session (
 ALTER TABLE public.django_session OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_site; Type: TABLE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_site; Type: TABLE; Schema: public; Owner: aiida
 --
 
 CREATE TABLE public.django_site (
@@ -621,7 +623,7 @@ CREATE TABLE public.django_site (
 ALTER TABLE public.django_site OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_site_id_seq; Type: SEQUENCE; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_site_id_seq; Type: SEQUENCE; Schema: public; Owner: aiida
 --
 
 CREATE SEQUENCE public.django_site_id_seq
@@ -635,152 +637,152 @@ CREATE SEQUENCE public.django_site_id_seq
 ALTER TABLE public.django_site_id_seq OWNER TO %AIIDADB_USER%;
 
 --
--- Name: django_site_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_site_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aiida
 --
 
 ALTER SEQUENCE public.django_site_id_seq OWNED BY public.django_site.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbauthinfo ALTER COLUMN id SET DEFAULT nextval('public.db_dbauthinfo_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomment ALTER COLUMN id SET DEFAULT nextval('public.db_dbcomment_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomputer ALTER COLUMN id SET DEFAULT nextval('public.db_dbcomputer_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup ALTER COLUMN id SET DEFAULT nextval('public.db_dbgroup_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup_dbnodes ALTER COLUMN id SET DEFAULT nextval('public.db_dbgroup_dbnodes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblink ALTER COLUMN id SET DEFAULT nextval('public.db_dblink_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblog ALTER COLUMN id SET DEFAULT nextval('public.db_dblog_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbnode ALTER COLUMN id SET DEFAULT nextval('public.db_dbnode_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbsetting ALTER COLUMN id SET DEFAULT nextval('public.db_dbsetting_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbuser ALTER COLUMN id SET DEFAULT nextval('public.db_dbuser_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: id; Type: DEFAULT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_site ALTER COLUMN id SET DEFAULT nextval('public.django_site_id_seq'::regclass);
 
 
 --
--- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
 
 
 --
--- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 
 
 --
--- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (1, 'Can add permission', 1, 'add_permission');
@@ -843,110 +845,122 @@ INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES 
 INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (58, 'Can add db workflow step', 20, 'add_dbworkflowstep');
 INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (59, 'Can change db workflow step', 20, 'change_dbworkflowstep');
 INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (60, 'Can delete db workflow step', 20, 'delete_dbworkflowstep');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (61, 'Can view permission', 1, 'view_permission');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (62, 'Can view group', 2, 'view_group');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (63, 'Can view content type', 3, 'view_contenttype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (64, 'Can view db user', 6, 'view_dbuser');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (65, 'Can view db auth info', 15, 'view_dbauthinfo');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (66, 'Can view db comment', 16, 'view_dbcomment');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (67, 'Can view db computer', 14, 'view_dbcomputer');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (68, 'Can view db group', 13, 'view_dbgroup');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (69, 'Can view db link', 8, 'view_dblink');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (70, 'Can view db log', 17, 'view_dblog');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (71, 'Can view db node', 7, 'view_dbnode');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (72, 'Can view db setting', 9, 'view_dbsetting');
 
 
 --
--- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 60, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
 
 
 --
--- Data for Name: db_dbauthinfo; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbauthinfo; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.db_dbauthinfo (id, auth_params, metadata, enabled, aiidauser_id, dbcomputer_id) VALUES (1, '{"port": 22, "gss_kex": null, "timeout": 60, "compress": true, "gss_auth": null, "gss_host": "torquessh", "username": "app", "key_policy": "AutoAddPolicy", "allow_agent": false, "key_filename": "/home/aiida/.ssh/id_rsa", "look_for_keys": false, "proxy_command": null, "safe_interval": 5, "gss_deleg_creds": null, "load_system_host_keys": true}', '{}', true, 1, 1);
 
 
 --
--- Name: db_dbauthinfo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbauthinfo_id_seq', 1, true);
 
 
 --
--- Data for Name: db_dbcomment; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbcomment; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: db_dbcomment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbcomment_id_seq', 1, false);
 
 
 --
--- Data for Name: db_dbcomputer; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbcomputer; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.db_dbcomputer (id, uuid, name, hostname, description, transport_type, scheduler_type, metadata) VALUES (1, '0daf0d94-ac58-436a-a034-2fd1f1be14e9', 'torquessh', 'torquessh', '', 'ssh', 'torque', '{"shebang": "#!/bin/bash", "workdir": "/scratch/{username}/aiida/", "append_text": "", "prepend_text": "", "mpirun_command": ["mpirun", "-np", "{tot_num_mpiprocs}"]}');
 
 
 --
--- Name: db_dbcomputer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbcomputer_id_seq', 1, true);
 
 
 --
--- Data for Name: db_dbgroup; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbgroup; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Data for Name: db_dbgroup_dbnodes; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbgroup_dbnodes; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbgroup_dbnodes_id_seq', 1, false);
 
 
 --
--- Name: db_dbgroup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbgroup_id_seq', 1, false);
 
 
 --
--- Data for Name: db_dblink; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dblink; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: db_dblink_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dblink_id_seq', 1, false);
 
 
 --
--- Data for Name: db_dblog; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dblog; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 
 
 --
--- Name: db_dblog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dblog_id_seq', 1, false);
 
 
 --
--- Data for Name: db_dbnode; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbnode; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.db_dbnode (id, uuid, node_type, label, description, ctime, mtime, dbcomputer_id, user_id, process_type, attributes, extras) VALUES (1, '8e729966-b5aa-4425-a831-cc0e3a6163ad', 'data.code.Code.', 'crystal', '', '2018-12-19 19:12:53.559278+00', '2019-07-30 20:31:52.125349+00', 1, 1, NULL, '{"is_local": false, "append_text": "", "input_plugin": "crystal.serial", "prepend_text": "", "remote_exec_path": "/usr/bin/crystal"}', '{"hidden": false, "_aiida_hash": "240f263caa2d4a61ce30b84bccfc6fa353a7ec7030ca4136c8393e3df27d8a87"}');
@@ -955,45 +969,46 @@ INSERT INTO public.db_dbnode (id, uuid, node_type, label, description, ctime, mt
 
 
 --
--- Name: db_dbnode_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbnode_id_seq', 3, true);
 
 
 --
--- Data for Name: db_dbsetting; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbsetting; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (16, 'db|backend', 'The backend used to communicate with the database.', '2019-07-30 20:31:41.927069+00', '"django"');
 INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (37, 'daemon|task_start|workflow_stepper', 'The last time the daemon started to run the task ''workflow_stepper''', '2019-07-30 20:31:41.927934+00', '"2019-03-05T18:46:20.386132+00:00"');
 INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (38, 'daemon|task_stop|workflow_stepper', 'The last time the daemon finished to run the task ''workflow_stepper''', '2019-07-30 20:31:41.928773+00', '"2019-03-05T18:46:20.400081+00:00"');
-INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (15, 'db|schemaversion', 'The version of the schema used in this database.', '2019-07-30 20:31:42.107691+00', '"1.0.40"');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (39, 'schema_generation', 'Database schema generation', '2020-05-22 08:51:08.517994+00', '"1"');
+INSERT INTO public.db_dbsetting (id, key, description, "time", val) VALUES (15, 'db|schemaversion', 'The version of the schema used in this database.', '2020-05-22 08:51:08.553963+00', '"1.0.43"');
 
 
 --
--- Name: db_dbsetting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
-SELECT pg_catalog.setval('public.db_dbsetting_id_seq', 38, true);
+SELECT pg_catalog.setval('public.db_dbsetting_id_seq', 39, true);
 
 
 --
--- Data for Name: db_dbuser; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: db_dbuser; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.db_dbuser (id, email, first_name, last_name, institution) VALUES (1, 'aiida@localhost', 'AiiDA', 'Daemon', '');
 
 
 --
--- Name: db_dbuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.db_dbuser_id_seq', 1, true);
 
 
 --
--- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.django_content_type (id, app_label, model) VALUES (1, 'auth', 'permission');
@@ -1019,14 +1034,14 @@ INSERT INTO public.django_content_type (id, app_label, model) VALUES (20, 'db', 
 
 
 --
--- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.django_content_type_id_seq', 20, true);
 
 
 --
--- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (1, 'contenttypes', '0001_initial', '2018-12-19 19:11:31.933837+00');
@@ -1081,37 +1096,43 @@ INSERT INTO public.django_migrations (id, app, name, applied) VALUES (49, 'db', 
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (50, 'db', '0038_data_migration_legacy_job_calculations', '2019-07-30 20:31:42.041617+00');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (51, 'db', '0039_reset_hash', '2019-07-30 20:31:42.081571+00');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (52, 'db', '0040_data_migration_legacy_process_attributes', '2019-07-30 20:31:42.111211+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (53, 'auth', '0009_alter_user_last_name_max_length', '2020-05-22 08:51:08.456112+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (54, 'auth', '0010_alter_group_name_max_length', '2020-05-22 08:51:08.475288+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (55, 'auth', '0011_update_proxy_permissions', '2020-05-22 08:51:08.4931+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (56, 'db', '0041_seal_unsealed_processes', '2020-05-22 08:51:08.515454+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (57, 'db', '0042_prepare_schema_reset', '2020-05-22 08:51:08.536452+00');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (58, 'db', '0043_default_link_label', '2020-05-22 08:51:08.555726+00');
 
 
 --
--- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 52, true);
-
-
---
--- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
---
-
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 58, true);
 
 
 --
--- Data for Name: django_site; Type: TABLE DATA; Schema: public; Owner: %AIIDADB_USER%
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: aiida
+--
+
+
+
+--
+-- Data for Name: django_site; Type: TABLE DATA; Schema: public; Owner: aiida
 --
 
 INSERT INTO public.django_site (id, domain, name) VALUES (1, 'example.com', 'example.com');
 
 
 --
--- Name: django_site_id_seq; Type: SEQUENCE SET; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_site_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aiida
 --
 
 SELECT pg_catalog.setval('public.django_site_id_seq', 1, true);
 
 
 --
--- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group
@@ -1119,7 +1140,7 @@ ALTER TABLE ONLY public.auth_group
 
 
 --
--- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1127,7 +1148,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1135,7 +1156,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group
@@ -1143,7 +1164,7 @@ ALTER TABLE ONLY public.auth_group
 
 
 --
--- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -1151,7 +1172,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -1159,7 +1180,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: db_dbauthinfo_aiidauser_id_5b91ddd9ac6ddd83_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_aiidauser_id_5b91ddd9ac6ddd83_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbauthinfo
@@ -1167,7 +1188,7 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbauthinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbauthinfo
@@ -1175,7 +1196,7 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbcomment_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomment
@@ -1183,7 +1204,7 @@ ALTER TABLE ONLY public.db_dbcomment
 
 
 --
--- Name: db_dbcomment_uuid_49bac08c_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_uuid_49bac08c_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomment
@@ -1191,7 +1212,7 @@ ALTER TABLE ONLY public.db_dbcomment
 
 
 --
--- Name: db_dbcomputer_name_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_name_key; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomputer
@@ -1199,7 +1220,7 @@ ALTER TABLE ONLY public.db_dbcomputer
 
 
 --
--- Name: db_dbcomputer_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomputer
@@ -1207,7 +1228,7 @@ ALTER TABLE ONLY public.db_dbcomputer
 
 
 --
--- Name: db_dbcomputer_uuid_f35defa6_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_uuid_f35defa6_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomputer
@@ -1215,7 +1236,7 @@ ALTER TABLE ONLY public.db_dbcomputer
 
 
 --
--- Name: db_dbgroup_dbnodes_dbgroup_id_dbnode_id_key; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_dbgroup_id_dbnode_id_key; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup_dbnodes
@@ -1223,7 +1244,7 @@ ALTER TABLE ONLY public.db_dbgroup_dbnodes
 
 
 --
--- Name: db_dbgroup_dbnodes_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup_dbnodes
@@ -1231,7 +1252,7 @@ ALTER TABLE ONLY public.db_dbgroup_dbnodes
 
 
 --
--- Name: db_dbgroup_name_680159c7377fefd_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_name_680159c7377fefd_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup
@@ -1239,7 +1260,7 @@ ALTER TABLE ONLY public.db_dbgroup
 
 
 --
--- Name: db_dbgroup_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup
@@ -1247,7 +1268,7 @@ ALTER TABLE ONLY public.db_dbgroup
 
 
 --
--- Name: db_dbgroup_uuid_af896177_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_uuid_af896177_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup
@@ -1255,7 +1276,7 @@ ALTER TABLE ONLY public.db_dbgroup
 
 
 --
--- Name: db_dblink_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblink
@@ -1263,7 +1284,7 @@ ALTER TABLE ONLY public.db_dblink
 
 
 --
--- Name: db_dblog_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblog
@@ -1271,7 +1292,7 @@ ALTER TABLE ONLY public.db_dblog
 
 
 --
--- Name: db_dblog_uuid_9cf77df3_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_uuid_9cf77df3_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblog
@@ -1279,7 +1300,7 @@ ALTER TABLE ONLY public.db_dblog
 
 
 --
--- Name: db_dbnode_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbnode
@@ -1287,7 +1308,7 @@ ALTER TABLE ONLY public.db_dbnode
 
 
 --
--- Name: db_dbnode_uuid_62e0bf98_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_uuid_62e0bf98_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbnode
@@ -1295,7 +1316,7 @@ ALTER TABLE ONLY public.db_dbnode
 
 
 --
--- Name: db_dbsetting_key_1b84beb4_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_key_1b84beb4_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbsetting
@@ -1303,7 +1324,7 @@ ALTER TABLE ONLY public.db_dbsetting
 
 
 --
--- Name: db_dbsetting_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbsetting
@@ -1311,7 +1332,7 @@ ALTER TABLE ONLY public.db_dbsetting
 
 
 --
--- Name: db_dbuser_email_30150b7e_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_email_30150b7e_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbuser
@@ -1319,7 +1340,7 @@ ALTER TABLE ONLY public.db_dbuser
 
 
 --
--- Name: db_dbuser_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbuser
@@ -1327,7 +1348,7 @@ ALTER TABLE ONLY public.db_dbuser
 
 
 --
--- Name: django_content_type_app_label_45f3b1d93ec8c61c_uniq; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type_app_label_45f3b1d93ec8c61c_uniq; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_content_type
@@ -1335,7 +1356,7 @@ ALTER TABLE ONLY public.django_content_type
 
 
 --
--- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_content_type
@@ -1343,7 +1364,7 @@ ALTER TABLE ONLY public.django_content_type
 
 
 --
--- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_migrations
@@ -1351,7 +1372,7 @@ ALTER TABLE ONLY public.django_migrations
 
 
 --
--- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_session
@@ -1359,7 +1380,7 @@ ALTER TABLE ONLY public.django_session
 
 
 --
--- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.django_site
@@ -1367,294 +1388,294 @@ ALTER TABLE ONLY public.django_site
 
 
 --
--- Name: auth_group_name_253ae2a6331666e8_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_name_253ae2a6331666e8_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX auth_group_name_253ae2a6331666e8_like ON public.auth_group USING btree (name varchar_pattern_ops);
 
 
 --
--- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX auth_group_permissions_0e939a4f ON public.auth_group_permissions USING btree (group_id);
 
 
 --
--- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX auth_group_permissions_8373b171 ON public.auth_group_permissions USING btree (permission_id);
 
 
 --
--- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX auth_permission_417f1b1c ON public.auth_permission USING btree (content_type_id);
 
 
 --
--- Name: db_dbauthinfo_669c815a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_669c815a; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbauthinfo_669c815a ON public.db_dbauthinfo USING btree (aiidauser_id);
 
 
 --
--- Name: db_dbauthinfo_9ed6a91c; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_9ed6a91c; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbauthinfo_9ed6a91c ON public.db_dbauthinfo USING btree (dbcomputer_id);
 
 
 --
--- Name: db_dbcomment_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_7a672316; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbcomment_7a672316 ON public.db_dbcomment USING btree (dbnode_id);
 
 
 --
--- Name: db_dbcomment_e8701ad4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_e8701ad4; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbcomment_e8701ad4 ON public.db_dbcomment USING btree (user_id);
 
 
 --
--- Name: db_dbcomputer_name_538c8da7bbe500af_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomputer_name_538c8da7bbe500af_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbcomputer_name_538c8da7bbe500af_like ON public.db_dbcomputer USING btree (name varchar_pattern_ops);
 
 
 --
--- Name: db_dbgroup_599dcce2; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_599dcce2; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_599dcce2 ON public.db_dbgroup USING btree (type_string);
 
 
 --
--- Name: db_dbgroup_b068931c; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_b068931c; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_b068931c ON public.db_dbgroup USING btree (label);
 
 
 --
--- Name: db_dbgroup_dbnodes_7a672316; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_7a672316; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_dbnodes_7a672316 ON public.db_dbgroup_dbnodes USING btree (dbnode_id);
 
 
 --
--- Name: db_dbgroup_dbnodes_a0b4eda0; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_a0b4eda0; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_dbnodes_a0b4eda0 ON public.db_dbgroup_dbnodes USING btree (dbgroup_id);
 
 
 --
--- Name: db_dbgroup_e8701ad4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_e8701ad4; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_e8701ad4 ON public.db_dbgroup USING btree (user_id);
 
 
 --
--- Name: db_dbgroup_name_30351f1c64285f22_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_name_30351f1c64285f22_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_name_30351f1c64285f22_like ON public.db_dbgroup USING btree (label varchar_pattern_ops);
 
 
 --
--- Name: db_dbgroup_type_49745d6ede76abdd_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_type_49745d6ede76abdd_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbgroup_type_49745d6ede76abdd_like ON public.db_dbgroup USING btree (type_string varchar_pattern_ops);
 
 
 --
--- Name: db_dblink_599dcce2; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_599dcce2; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_599dcce2 ON public.db_dblink USING btree (type);
 
 
 --
--- Name: db_dblink_b082bddd; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_b082bddd; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_b082bddd ON public.db_dblink USING btree (input_id);
 
 
 --
--- Name: db_dblink_d304ba20; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_d304ba20; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_d304ba20 ON public.db_dblink USING btree (label);
 
 
 --
--- Name: db_dblink_f7f1d83a; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_f7f1d83a; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_f7f1d83a ON public.db_dblink USING btree (output_id);
 
 
 --
--- Name: db_dblink_label_8f8811d475657bc_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_label_8f8811d475657bc_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_label_8f8811d475657bc_like ON public.db_dblink USING btree (label varchar_pattern_ops);
 
 
 --
--- Name: db_dblink_type_7365c319e9395009_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_type_7365c319e9395009_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblink_type_7365c319e9395009_like ON public.db_dblink USING btree (type varchar_pattern_ops);
 
 
 --
--- Name: db_dblog_269f51f9; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_269f51f9; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblog_269f51f9 ON public.db_dblog USING btree (levelname);
 
 
 --
--- Name: db_dblog_358be7bf; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_358be7bf; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblog_358be7bf ON public.db_dblog USING btree (loggername);
 
 
 --
--- Name: db_dblog_dbnode_id_da34b732; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_dbnode_id_da34b732; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblog_dbnode_id_da34b732 ON public.db_dblog USING btree (dbnode_id);
 
 
 --
--- Name: db_dblog_levelname_14b334f2645c4b06_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_levelname_14b334f2645c4b06_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblog_levelname_14b334f2645c4b06_like ON public.db_dblog USING btree (levelname varchar_pattern_ops);
 
 
 --
--- Name: db_dblog_loggername_4f4ecb812e82233_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_loggername_4f4ecb812e82233_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dblog_loggername_4f4ecb812e82233_like ON public.db_dblog USING btree (loggername varchar_pattern_ops);
 
 
 --
--- Name: db_dbnode_599dcce2; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_599dcce2; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_599dcce2 ON public.db_dbnode USING btree (node_type);
 
 
 --
--- Name: db_dbnode_66145cb4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_66145cb4; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_66145cb4 ON public.db_dbnode USING btree (process_type);
 
 
 --
--- Name: db_dbnode_9ed6a91c; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_9ed6a91c; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_9ed6a91c ON public.db_dbnode USING btree (dbcomputer_id);
 
 
 --
--- Name: db_dbnode_ctime_40323cf9b4b3beda_uniq; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_ctime_40323cf9b4b3beda_uniq; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_ctime_40323cf9b4b3beda_uniq ON public.db_dbnode USING btree (ctime);
 
 
 --
--- Name: db_dbnode_d304ba20; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_d304ba20; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_d304ba20 ON public.db_dbnode USING btree (label);
 
 
 --
--- Name: db_dbnode_e8701ad4; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_e8701ad4; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_e8701ad4 ON public.db_dbnode USING btree (user_id);
 
 
 --
--- Name: db_dbnode_label_6242931c5b984b78_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_label_6242931c5b984b78_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_label_6242931c5b984b78_like ON public.db_dbnode USING btree (label varchar_pattern_ops);
 
 
 --
--- Name: db_dbnode_mtime_27edb0e547b18070_uniq; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_mtime_27edb0e547b18070_uniq; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_mtime_27edb0e547b18070_uniq ON public.db_dbnode USING btree (mtime);
 
 
 --
--- Name: db_dbnode_process_type_4aee8b4a0e613c25_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_process_type_4aee8b4a0e613c25_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_process_type_4aee8b4a0e613c25_like ON public.db_dbnode USING btree (process_type varchar_pattern_ops);
 
 
 --
--- Name: db_dbnode_type_4cda33f938ccd765_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_type_4cda33f938ccd765_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbnode_type_4cda33f938ccd765_like ON public.db_dbnode USING btree (node_type varchar_pattern_ops);
 
 
 --
--- Name: db_dbsetting_key_1b84beb4_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbsetting_key_1b84beb4_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbsetting_key_1b84beb4_like ON public.db_dbsetting USING btree (key varchar_pattern_ops);
 
 
 --
--- Name: db_dbuser_email_30150b7e_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbuser_email_30150b7e_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX db_dbuser_email_30150b7e_like ON public.db_dbuser USING btree (email varchar_pattern_ops);
 
 
 --
--- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX django_session_de54fa62 ON public.django_session USING btree (expire_date);
 
 
 --
--- Name: django_session_session_key_461cfeaa630ca218_like; Type: INDEX; Schema: public; Owner: %AIIDADB_USER%
+-- Name: django_session_session_key_461cfeaa630ca218_like; Type: INDEX; Schema: public; Owner: aiida
 --
 
 CREATE INDEX django_session_session_key_461cfeaa630ca218_like ON public.django_session USING btree (session_key varchar_pattern_ops);
 
 
 --
--- Name: auth_content_type_id_508cf46651277a81_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_content_type_id_508cf46651277a81_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_permission
@@ -1662,7 +1683,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- Name: auth_group_permissio_group_id_689710a9a73b7457_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permissio_group_id_689710a9a73b7457_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1670,7 +1691,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: auth_group_permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: auth_group_permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.auth_group_permissions
@@ -1678,7 +1699,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- Name: db_dbauthinfo_aiidauser_id_b4dbd2ecdabaa58_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_aiidauser_id_b4dbd2ecdabaa58_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbauthinfo
@@ -1686,7 +1707,7 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbauthinfo_dbcomputer_id_be3c9b99107479b_fk_db_dbcomputer_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbauthinfo_dbcomputer_id_be3c9b99107479b_fk_db_dbcomputer_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbauthinfo
@@ -1694,7 +1715,7 @@ ALTER TABLE ONLY public.db_dbauthinfo
 
 
 --
--- Name: db_dbcomment_dbnode_id_e225ac462eb8f6c_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_dbnode_id_e225ac462eb8f6c_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomment
@@ -1702,7 +1723,7 @@ ALTER TABLE ONLY public.db_dbcomment
 
 
 --
--- Name: db_dbcomment_user_id_2e215134d026c3a3_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbcomment_user_id_2e215134d026c3a3_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbcomment
@@ -1710,7 +1731,7 @@ ALTER TABLE ONLY public.db_dbcomment
 
 
 --
--- Name: db_dbgroup_dbnodes_dbgroup_id_32d69f1acbc4c03c_fk_db_dbgroup_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_dbgroup_id_32d69f1acbc4c03c_fk_db_dbgroup_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup_dbnodes
@@ -1718,7 +1739,7 @@ ALTER TABLE ONLY public.db_dbgroup_dbnodes
 
 
 --
--- Name: db_dbgroup_dbnodes_dbnode_id_53a1829a1973b99c_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_dbnodes_dbnode_id_53a1829a1973b99c_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup_dbnodes
@@ -1726,7 +1747,7 @@ ALTER TABLE ONLY public.db_dbgroup_dbnodes
 
 
 --
--- Name: db_dbgroup_user_id_698e239e754dccc5_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbgroup_user_id_698e239e754dccc5_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbgroup
@@ -1734,7 +1755,7 @@ ALTER TABLE ONLY public.db_dbgroup
 
 
 --
--- Name: db_dblink_input_id_6feafb02380ed56f_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_input_id_6feafb02380ed56f_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblink
@@ -1742,7 +1763,7 @@ ALTER TABLE ONLY public.db_dblink
 
 
 --
--- Name: db_dblink_output_id_6345a663e713ed93_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblink_output_id_6345a663e713ed93_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblink
@@ -1750,7 +1771,7 @@ ALTER TABLE ONLY public.db_dblink
 
 
 --
--- Name: db_dblog_dbnode_id_da34b732_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dblog_dbnode_id_da34b732_fk_db_dbnode_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dblog
@@ -1758,7 +1779,7 @@ ALTER TABLE ONLY public.db_dblog
 
 
 --
--- Name: db_dbnode_dbcomputer_id_2195c2d4d9b222ff_fk_db_dbcomputer_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_dbcomputer_id_2195c2d4d9b222ff_fk_db_dbcomputer_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbnode
@@ -1766,7 +1787,7 @@ ALTER TABLE ONLY public.db_dbnode
 
 
 --
--- Name: db_dbnode_user_id_43fd81cadf67f183_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: %AIIDADB_USER%
+-- Name: db_dbnode_user_id_43fd81cadf67f183_fk_db_dbuser_id; Type: FK CONSTRAINT; Schema: public; Owner: aiida
 --
 
 ALTER TABLE ONLY public.db_dbnode
@@ -1774,7 +1795,7 @@ ALTER TABLE ONLY public.db_dbnode
 
 
 --
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: %AIIDADB_USER%
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: aiida
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
